@@ -23,11 +23,12 @@
                             <constraint firstAttribute="width" secondItem="1iS-DC-BMQ" secondAttribute="height" multiplier="1:1.414" id="0fd-PD-twD"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="근처 15개 영화관 상영" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Qq-xaL">
-                        <rect key="frame" x="10" y="300" width="205" height="106"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15개 영화관 상영" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Qq-xaL">
+                        <rect key="frame" x="10" y="310" width="205" height="96"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="0.0" height="0.0"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -35,7 +36,7 @@
                     <constraint firstItem="bBN-Qq-xaL" firstAttribute="leading" secondItem="eRL-m3-hIG" secondAttribute="leading" constant="10" id="BEs-59-EbJ"/>
                     <constraint firstAttribute="trailing" secondItem="1iS-DC-BMQ" secondAttribute="trailing" constant="10" id="D8U-4t-iqm"/>
                     <constraint firstAttribute="bottom" secondItem="bBN-Qq-xaL" secondAttribute="bottom" constant="10" id="UiI-XP-WAq"/>
-                    <constraint firstItem="bBN-Qq-xaL" firstAttribute="top" secondItem="1iS-DC-BMQ" secondAttribute="bottom" id="aRk-RS-lcU"/>
+                    <constraint firstItem="bBN-Qq-xaL" firstAttribute="top" secondItem="1iS-DC-BMQ" secondAttribute="bottom" constant="10" id="aRk-RS-lcU"/>
                     <constraint firstItem="1iS-DC-BMQ" firstAttribute="leading" secondItem="eRL-m3-hIG" secondAttribute="leading" constant="10" id="cQw-VM-i29"/>
                     <constraint firstAttribute="trailing" secondItem="bBN-Qq-xaL" secondAttribute="trailing" constant="10" id="lpW-tw-pqk"/>
                     <constraint firstItem="1iS-DC-BMQ" firstAttribute="top" secondItem="eRL-m3-hIG" secondAttribute="top" constant="10" id="mGE-4H-vRO"/>

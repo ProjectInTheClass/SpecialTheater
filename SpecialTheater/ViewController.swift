@@ -40,7 +40,7 @@ extension ViewController {
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.414 / 2 + 0.14))
+            let itemsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.414 / 2 + 0.1))
             let item = NSCollectionLayoutItem(layoutSize: itemsize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
             let groupHeight = itemsize.heightDimension
@@ -71,5 +71,10 @@ extension ViewController: UICollectionViewDataSource {
 
 // MARK: - Delegate
 extension ViewController: UICollectionViewDelegate {
-    // 여기서 셀에 관한 동작이 정의됩니다.
+    // 셀을 선택하면 영화관 선택 뷰로 전환합니다.
+    internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? movieItem {
+            performSegue(withIdentifier: "TheaterSelection", sender: cell)
+        }
+    }
 }
