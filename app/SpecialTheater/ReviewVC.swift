@@ -1,24 +1,24 @@
 //
-//  TheaterSelectionVC.swift
+//  ReviewVC.swift
 //  SpecialTheater
 //
-//  Created by taejeong on 2022/05/02.
+//  Created by taejeong on 2022/05/03.
 //
 
 import UIKit
 
-class TheaterSelectionVC: UIViewController {
-    @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var dateLocationView: UIView!
-    @IBOutlet weak var movieListTable: UITableView!
+class ReviewVC: UIViewController {
+    @IBOutlet weak var movieInfoView: UIView!
+    @IBOutlet weak var theaterInfoView: UIView!
+    @IBOutlet weak var reviewTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        detailView.layer.cornerRadius = 14
-        dateLocationView.layer.cornerRadius = 14
-        movieListTable.layer.cornerRadius = 14
+        movieInfoView.layer.cornerRadius = 14
+        theaterInfoView.layer.cornerRadius = 14
+        reviewTable.layer.cornerRadius = 14
     }
     
 
