@@ -134,9 +134,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="CompanySeg" destination="PFa-Rb-Ibr" id="4Iw-fm-8el"/>
-                        <outlet property="descLabel" destination="afe-W3-PWl" id="jKu-5h-AvE"/>
                         <outlet property="detailView2" destination="pgk-oP-1ss" id="tda-ll-QDM"/>
-                        <outlet property="posterImg" destination="sQI-2a-6Ok" id="ZQb-20-UxP"/>
+                        <outlet property="posterImg" destination="sQI-2a-6Ok" id="OcK-ZQ-eiB"/>
+                        <outlet property="selectedMovieTitle" destination="Zb4-4V-gW3" id="x2q-La-caG"/>
                         <outlet property="theaterCollection" destination="dwh-dc-YSL" id="HPQ-2E-WYw"/>
                     </connections>
                 </viewController>

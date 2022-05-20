@@ -12,14 +12,14 @@ class TheaterSelectionVC: UIViewController {
     @IBOutlet weak var detailView2: UIView!
     @IBOutlet weak var posterImg: UIImageView!
     @IBOutlet weak var theaterCollection: UICollectionView!
-    @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var selectedMovieTitle: UILabel!
     @IBOutlet weak var CompanySeg: UISegmentedControl!
     
-    let screenTypesOfCGV: [String] = ["CINE_AND_LIVING_ROOM", "CINE_DE_CHEF", "CINE_FORET", "CINE_KIDS", "GOLD_CLASS", "IMAX", "PREMIUM", "PRIVATE_CINEMA", "SCREEN_X", "SKY_BOX", "SOUND_X", "SPHERE_X", "STARIUM", "SUITE_CINEMA", "SWEETBOX", "TEMPUR_CINEMA", "_4DX", "_4DX_SCREEN", "SUBPAC", "VEATBOX", "BRAND_COLLABORATION"]
+    let screenTypesOfCGV: [(String, String)] = [("CINE_AND_LIVING_ROOM", "CINE&LIVING ROOM"), ("CINE_DE_CHEF", "CINE de CHEF"), ("CINE_FORET", "CINE&FORET"), ("CINE_KIDS", "CINE KIDS"), ("GOLD_CLASS", "GOLD CLASS"), ("IMAX", "IMAX"), ("PREMIUM", "PREMIUM"), ("PRIVATE_CINEMA", "THE PRIVATE CINEMA"), ("SCREEN_X", "SCREEN X"), ("SKY_BOX", "SKYBOX"), ("SOUND_X", "SOUND X"), ("SPHERE_X", "SPHERE X"), ("STARIUM", "STARIUM"), ("SUITE_CINEMA", "SUITE CINEMA"), ("SWEETBOX", "SWEETBOX"), ("TEMPUR_CINEMA", "TEMPUR CINEMA"), ("_4DX", "4DX"), ("_4DX_SCREEN", "4DX SCREEN"), ("SUBPAC", "SUBPAC"), ("VEATBOX", "VEATBOX"), ("BRAND_COLLABORATION", "BRAND COLLABORATION")]
     
-    let screenTypesOfLOTTECINEMA: [String] = ["CHARLOTTE", "CINE_BIZ", "CINE_COMFORT", "CINE_COUPLE", "CINE_FAMILY", "CINE_SALON", "COLORIUM", "SUPER_4D", "SUPER_FLEX", "SUPER_FLEX_G", "SUPER_S"]
+    let screenTypesOfLOTTECINEMA: [(String, String)] = [("CHARLOTTE", "샤롯데"), ("CINE_BIZ", "시네비즈"), ("CINE_COMFORT", "시네 컴포트"), ("CINE_COUPLE", "시네 커플"), ("CINE_FAMILY", "시네 패밀리"), ("CINE_SALON", "시네 샬롱"), ("COLORIUM", "컬러리움"), ("SUPER_4D", "수퍼4D"), ("SUPER_FLEX", "수퍼플렉스"), ("SUPER_FLEX_G", "수퍼플렉스G"), ("SUPER_S", "수퍼S")]
     
-    let scrrenTypesOfMEGABOX: [String] = ["COMFORT", "DOLBY_CINEMA", "MEGA_KIDS", "MX", "THE_BOUTIQUE", "THE_BOUTIQUE_PRIVATE"]
+    let screenTypesOfMEGABOX: [(String, String)] = [("COMFORT", "컴포트"), ("DOLBY_CINEMA", "돌비시네마"), ("MEGA_KIDS", "메가키즈"), ("MX", "MX"), ("THE_BOUTIQUE", "더 부티크"), ("THE_BOUTIQUE_PRIVATE", "더 부티크 프라이빗")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,22 +45,13 @@ class TheaterSelectionVC: UIViewController {
     }
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Hi")
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        if let recievedData = sender as? (UIImage?, String?) {
-            if let posterImage = recievedData.0 {
-                posterImg.image = posterImage
-            }
-            if let desc = recievedData.1 {
-                descLabel.text = desc
-            }
-        }
+        guard let destVC: ReviewVC = segue.destination as? ReviewVC else { return }
+        guard let cell: TheaterItem = sender as? TheaterItem else { return }
+        let _ = destVC.view
+        destVC.movieInfoLabel.text = selectedMovieTitle.text
+        destVC.theaterInfoLabel.text = cell.company + " " + cell.type
     }
-
 }
 
 // MARK: - Collection View Compositional Layout
@@ -96,7 +87,7 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
             numberOfItems = screenTypesOfLOTTECINEMA.count
             break
         case 2:
-            numberOfItems = scrrenTypesOfMEGABOX.count
+            numberOfItems = screenTypesOfMEGABOX.count
             break
         default:
             numberOfItems = 0
@@ -109,13 +100,19 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TheaterItem.self), for: indexPath) as! TheaterItem
         switch CompanySeg.selectedSegmentIndex {
         case 0:
-            cell.theaterImage.image = UIImage(named: screenTypesOfCGV[indexPath.row])
+            cell.company = "CGV"
+            cell.type = screenTypesOfCGV[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: screenTypesOfCGV[indexPath.row].0)
             break
         case 1:
-            cell.theaterImage.image = UIImage(named: screenTypesOfLOTTECINEMA[indexPath.row])
+            cell.company = "롯데시네마"
+            cell.type = screenTypesOfLOTTECINEMA[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: screenTypesOfLOTTECINEMA[indexPath.row].0)
             break
         case 2:
-            cell.theaterImage.image = UIImage(named: scrrenTypesOfMEGABOX[indexPath.row])
+            cell.company = "메가박스"
+            cell.type = screenTypesOfMEGABOX[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: screenTypesOfMEGABOX[indexPath.row].0)
             break
         default:
             print("Invalid Segment Control", indexPath)
@@ -128,6 +125,8 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
 extension TheaterSelectionVC: UICollectionViewDelegate {
     // 셀을 선택하면 리뷰 뷰로 이동합니다.
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "Review", sender: nil)
+        if let cell = self.theaterCollection.cellForItem(at: indexPath) as? TheaterItem {
+            performSegue(withIdentifier: "Review", sender: cell)
+        }
     }
 }

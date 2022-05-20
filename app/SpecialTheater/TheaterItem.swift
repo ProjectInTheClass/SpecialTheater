@@ -8,6 +8,9 @@
 import UIKit
 
 class TheaterItem: UICollectionViewCell {
+    
+    var company: String = ""
+    var type: String = ""
 
     @IBOutlet weak var theaterImage: UIImageView!
     override func awakeFromNib() {

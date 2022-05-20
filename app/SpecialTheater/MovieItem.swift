@@ -7,11 +7,14 @@
 import UIKit
 
 class MovieItem: UICollectionViewCell {
-    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var posterImageView: UIImageView!
+    
+    // Data which are deliverd to TheaterSelection View.
+    var name: String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.layer.cornerRadius = 14
-        posterImage.layer.cornerRadius = 14
+        self.posterImageView.layer.cornerRadius = 14
     }
 }

@@ -20,6 +20,11 @@ class ReviewWrtingVC: UIViewController {
         commentFiled.layer.cornerRadius = 14
     }
     
+    
+    // 화면을 터치하면 검색을 위해 올라왔던 키보드가 다시 내려갑니다.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     /*
     // MARK: - Navigation

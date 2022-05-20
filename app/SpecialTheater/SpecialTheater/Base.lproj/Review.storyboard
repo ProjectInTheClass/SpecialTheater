@@ -116,8 +116,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="movieInfoView" destination="Oaz-XH-112" id="Vw0-Te-3gk"/>
+                        <outlet property="movieInfoLabel" destination="ILD-8h-y4x" id="YZd-yc-HvU"/>
+                        <outlet property="movieInfoView" destination="Oaz-XH-112" id="z0y-Ds-FNi"/>
                         <outlet property="reviewTable" destination="ruL-Bf-V3a" id="Uws-BK-h1s"/>
+                        <outlet property="theaterInfoLabel" destination="9Qk-EZ-HP9" id="KoN-g3-eJy"/>
                         <outlet property="theaterInfoView" destination="V3H-hd-bEV" id="jnb-p7-aco"/>
                     </connections>
                 </viewController>

@@ -31,7 +31,7 @@ class DateLocationVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let selectedItem = sender as? MovieItem {
-            self.posterImage.image = selectedItem.posterImage.image
+            self.posterImage.image = selectedItem.posterImageView.image
         }
     }
 

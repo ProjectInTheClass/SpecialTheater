@@ -10,6 +10,8 @@ import UIKit
 class ReviewVC: UIViewController {
     @IBOutlet weak var movieInfoView: UIView!
     @IBOutlet weak var theaterInfoView: UIView!
+    @IBOutlet weak var movieInfoLabel: UILabel!
+    @IBOutlet weak var theaterInfoLabel: UILabel!
     @IBOutlet weak var reviewTable: UITableView!
     
     override func viewDidLoad() {
