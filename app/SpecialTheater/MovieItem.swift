@@ -6,13 +6,11 @@
 //
 import UIKit
 
-class movieItem: UICollectionViewCell {
+class MovieItem: UICollectionViewCell {
     @IBOutlet weak var posterImage: UIImageView!
-    @IBOutlet weak var descLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.contentView.layer.cornerRadius = 14
         posterImage.layer.cornerRadius = 14
     }

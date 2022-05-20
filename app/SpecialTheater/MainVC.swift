@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -22,8 +22,8 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         // 사용할 컬렉션뷰 셀을 등록합니다.
-        let movieItemNib = UINib(nibName: String(describing: movieItem.self), bundle: nil)
-        self.collectionView.register(movieItemNib, forCellWithReuseIdentifier: String(describing: movieItem.self))
+        let movieItemNib = UINib(nibName: String(describing: MovieItem.self), bundle: nil)
+        self.collectionView.register(movieItemNib, forCellWithReuseIdentifier: String(describing: MovieItem.self))
         self.collectionView.collectionViewLayout = createCompositionalLayout()
     }
     
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
 
 
 // MARK: - Collection View Compositional Layout
-extension ViewController {
+extension MainVC {
     // 컬렉션뷰 레이아웃을 설정합니다.
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {
@@ -55,7 +55,7 @@ extension ViewController {
 }
 
 // MARK: - Data Source
-extension ViewController: UICollectionViewDataSource {
+extension MainVC: UICollectionViewDataSource {
     // 컬렉션뷰에 표시할 셀의 개수를 리턴합니다.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
@@ -64,17 +64,15 @@ extension ViewController: UICollectionViewDataSource {
     // indexPath번째에 표시할 셀을 리턴합니다.
     // movieItem 클래스에서 셀에 대한 설정이 이뤄집니다.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: movieItem.self), for: indexPath) as! movieItem
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MovieItem.self), for: indexPath) as! MovieItem
         return cell
     }
 }
 
 // MARK: - Delegate
-extension ViewController: UICollectionViewDelegate {
+extension MainVC: UICollectionViewDelegate {
     // 셀을 선택하면 영화관 선택 뷰로 전환합니다.
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? movieItem {
-            performSegue(withIdentifier: "TheaterSelection", sender: cell)
-        }
+        performSegue(withIdentifier: "TheaterSelection", sender: nil)
     }
 }
