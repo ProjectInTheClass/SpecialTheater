@@ -79,6 +79,9 @@
                                     <segment title="LOTTE CINEMA"/>
                                     <segment title="MEGABOX"/>
                                 </segments>
+                                <connections>
+                                    <action selector="companySelectionChanged:" destination="0MF-k3-94u" eventType="valueChanged" id="VqQ-ZW-WiO"/>
+                                </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dwh-dc-YSL">
                                 <rect key="frame" x="20" y="327.5" width="374" height="514.5"/>
@@ -130,6 +133,7 @@
                         <barButtonItem key="backBarButtonItem" title="극장 선택" id="ByX-J8-HQb"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="CompanySeg" destination="PFa-Rb-Ibr" id="4Iw-fm-8el"/>
                         <outlet property="descLabel" destination="afe-W3-PWl" id="jKu-5h-AvE"/>
                         <outlet property="detailView2" destination="pgk-oP-1ss" id="tda-ll-QDM"/>
                         <outlet property="posterImg" destination="sQI-2a-6Ok" id="ZQb-20-UxP"/>

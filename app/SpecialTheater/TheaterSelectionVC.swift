@@ -13,18 +13,13 @@ class TheaterSelectionVC: UIViewController {
     @IBOutlet weak var posterImg: UIImageView!
     @IBOutlet weak var theaterCollection: UICollectionView!
     @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var CompanySeg: UISegmentedControl!
     
-    enum screenTypesOfCGV: CaseIterable {
-        case CINE_AND_LIVING_ROOM, CINE_DE_CHEF, CINE_FORET, CINE_KIDS, GOLD_CLASS, IMAX, PREMIUM, PRIVATE_CINEMA, SCREEN_X, SKY_BOX, SOUND_X, SPHERE_X, STARIUM, SUITE_CINEMA, SWEETBOX, TEMPUR_CINEMA, _4DX, _4DX_SCREEN, SUBPAC, VEATBOX, BRAND_COLLABORATION
-    }
+    let screenTypesOfCGV: [String] = ["CINE_AND_LIVING_ROOM", "CINE_DE_CHEF", "CINE_FORET", "CINE_KIDS", "GOLD_CLASS", "IMAX", "PREMIUM", "PRIVATE_CINEMA", "SCREEN_X", "SKY_BOX", "SOUND_X", "SPHERE_X", "STARIUM", "SUITE_CINEMA", "SWEETBOX", "TEMPUR_CINEMA", "_4DX", "_4DX_SCREEN", "SUBPAC", "VEATBOX", "BRAND_COLLABORATION"]
     
-    enum screenTypesOfLOTTECINEMA: CaseIterable {
-        case CHARLOTTE, CINE_BIZ, CINE_COMFORT, CINE_COUPLE, CINE_FAMILY, CINE_SALON, COLORIUM, SUPER_4D, SUPER_FLEX, SUPER_FLEX_G, SUPER_S
-    }
+    let screenTypesOfLOTTECINEMA: [String] = ["CHARLOTTE", "CINE_BIZ", "CINE_COMFORT", "CINE_COUPLE", "CINE_FAMILY", "CINE_SALON", "COLORIUM", "SUPER_4D", "SUPER_FLEX", "SUPER_FLEX_G", "SUPER_S"]
     
-    enum scrrenTypesOfMEGABOX: CaseIterable {
-        case COMFORT, DOLBY_CINEMA, MEGA_KIDS, MX, THE_BOUTIQUE, THE_BOUTIQUE_PRIVATE
-    }
+    let scrrenTypesOfMEGABOX: [String] = ["COMFORT", "DOLBY_CINEMA", "MEGA_KIDS", "MX", "THE_BOUTIQUE", "THE_BOUTIQUE_PRIVATE"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +37,11 @@ class TheaterSelectionVC: UIViewController {
         theaterCollection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         theaterCollection.dataSource = self
         theaterCollection.delegate = self
+    }
+    
+    @IBAction func companySelectionChanged(_ sender: Any) {
+        self.theaterCollection.reloadData()
+        self.theaterCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     
     // MARK: - Navigation
@@ -87,12 +87,39 @@ extension TheaterSelectionVC {
 extension TheaterSelectionVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // TODO: - Segment Control이 선택된 것에 따라 다른 수를 반환합니다.
-        return 7
+        var numberOfItems = 0
+        switch CompanySeg.selectedSegmentIndex {
+        case 0:
+            numberOfItems = screenTypesOfCGV.count
+            break
+        case 1:
+            numberOfItems = screenTypesOfLOTTECINEMA.count
+            break
+        case 2:
+            numberOfItems = scrrenTypesOfMEGABOX.count
+            break
+        default:
+            numberOfItems = 0
+        }
+        return numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // TODO: - Segment Control이 선택된 것에 따라 다른 셀을 반환합니다.
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TheaterItem.self), for: indexPath) as! TheaterItem
+        switch CompanySeg.selectedSegmentIndex {
+        case 0:
+            cell.theaterImage.image = UIImage(named: screenTypesOfCGV[indexPath.row])
+            break
+        case 1:
+            cell.theaterImage.image = UIImage(named: screenTypesOfLOTTECINEMA[indexPath.row])
+            break
+        case 2:
+            cell.theaterImage.image = UIImage(named: scrrenTypesOfMEGABOX[indexPath.row])
+            break
+        default:
+            print("Invalid Segment Control", indexPath)
+        }
         return cell
     }
 }
