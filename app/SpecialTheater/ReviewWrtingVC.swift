@@ -8,22 +8,15 @@
 import UIKit
 
 class ReviewWrtingVC: UIViewController {
-    @IBOutlet weak var evoluationView: UIStackView!
-    @IBOutlet weak var commentFiled: UITextField!
     
-    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var evaluationItemsStackView: UIStackView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        evoluationView.layer.cornerRadius = 14
-        commentFiled.layer.cornerRadius = 14
-    }
-    
-    
-    // 화면을 터치하면 검색을 위해 올라왔던 키보드가 다시 내려갑니다.
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        self.evaluationItemsStackView.layer.cornerRadius = 14
+        registerForKeyboardNotifications()
     }
 
     /*
@@ -36,4 +29,31 @@ class ReviewWrtingVC: UIViewController {
     }
     */
 
+    // MARK: - Scrolling with Keyboard
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_ :)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWhillHide(_ :)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardDidShow(_ notification:NSNotification) {
+        guard let info = notification.userInfo,
+              let keyboardFrameValue = info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue
+        else { return }
+        
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    @objc func keyboardWhillHide(_ notification:NSNotification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
