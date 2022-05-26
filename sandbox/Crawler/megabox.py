@@ -60,7 +60,10 @@ def getMovies():
   return movieData
 
 def getMovieInfo(code):
-  driver = webdriver.Chrome()
+  print(f'get the movie information of code: {code}.')
+  options = webdriver.ChromeOptions()
+  options.add_argument("headless")
+  driver = webdriver.Chrome(options=options)
   driver.get('https://megabox.co.kr/movie-detail?rpstMovieNo='+code)
   try:
     posterURL = driver.find_element(by=By.CSS_SELECTOR, value='div.poster > div > img').get_attribute('src')
@@ -78,8 +81,6 @@ def getMovieInfo(code):
 
   driver.quit()
   return (genre, posterURL)
-
-print(getMovieInfo('22028500'))
 
 # DBC 돌비시네마
 # TB  더 부티크

@@ -17,6 +17,8 @@ class ReviewWrtingVC: UIViewController {
         // Do any additional setup after loading the view.
         self.evaluationItemsStackView.layer.cornerRadius = 14
         registerForKeyboardNotifications()
+
+        self.scrollView.delegate = self
     }
 
     /*
@@ -52,8 +54,11 @@ class ReviewWrtingVC: UIViewController {
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+}
+
+extension ReviewWrtingVC: UIScrollViewDelegate {
+    // 키보드가 올라온 상태에서 화면을 터치했을 때, 키보드를 내립니다.
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
 }

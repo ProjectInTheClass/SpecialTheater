@@ -30,8 +30,11 @@ def getMovieData():
     if name in movieData.keys():
       movieData[name][0] += types
     else:
-      genre, posterURL = cgv.getMovieInfo(code)
-      movieData[name] = [types, genre, posterURL]
+      try:
+        genre, posterURL = cgv.getMovieInfo(code)
+        movieData[name] = [types, genre, posterURL]
+      except:
+        print(f'an error occurs. name:{name} code:{code}')
   
   print("데이터 수집을 완료했습니다..")
   return movieData
