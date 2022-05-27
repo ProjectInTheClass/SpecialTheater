@@ -40,7 +40,9 @@ THEATER_CODES = {'IMAX': ['0257', '0090', '0007', '0005', '0143', '0012', '0074'
 
 def getRegionCodes():
   REGION_CODES = {}
-  driver = webdriver.Chrome()
+  options = webdriver.ChromeOptions()
+  options.add_argument("headless")
+  driver = webdriver.Chrome(options=options)
   driver.get('http://www.cgv.co.kr/theaters/special')
 
   nextButton = driver.find_element(by=By.CSS_SELECTOR, value='button.btn-next')
@@ -57,7 +59,9 @@ def getRegionCodes():
 
 def getTheaterCodes():
   THEATER_CODES = {}
-  driver = webdriver.Chrome()
+  options = webdriver.ChromeOptions()
+  options.add_argument("headless")
+  driver = webdriver.Chrome(options=options)
   for region, code in REGION_CODES.items():
     driver.get(f'http://www.cgv.co.kr/theaters/special/?regioncode={code}')
     try:
@@ -84,7 +88,9 @@ def getTheaterCodes():
 
 def getMovies():
   movieData = {}
-  driver = webdriver.Chrome()
+  options = webdriver.ChromeOptions()
+  options.add_argument("headless")
+  driver = webdriver.Chrome(options=options)
   for region, regionCode in REGION_CODES.items():
     if not(region in THEATER_CODES.keys()):
       continue
@@ -115,11 +121,12 @@ def getMovies():
   return movieData
 
 def getMovieInfo(code):
-  driver = webdriver.Chrome()
+  print(f'get the movie information of code: {code}.')  
+  options = webdriver.ChromeOptions()
+  options.add_argument("headless")
+  driver = webdriver.Chrome(options=options)
   driver.get('http://www.cgv.co.kr/movies/detail-view/?midx=' + code)
   posterURL = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-image > a > span > img').get_attribute('src')
   info = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-contents > div.spec').text
   genre = info[info.find("장르"):].split('/')[0].replace(' ', '').split(',')[0].split(':')[1]
   return (genre, posterURL)
-
-print(getMovieInfo('85813'))
