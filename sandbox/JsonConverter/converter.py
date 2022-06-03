@@ -3,7 +3,7 @@
 
 isColumn = True
 columns = []
-result = []
+theaterInfos = []
 
 while True:
   # get a line.
@@ -27,7 +27,16 @@ while True:
     data[columns[-1]] = [data[columns[-1]]] + items
 
   # store the data of this line.
-  result.append(data)
+  theaterInfos.append(data)
+
+# Tags List
+tags = []
+for row in theaterInfos:
+  if type(row['tags']) == str:
+    row['tags'] = [row['tags']]
+  for tag in row['tags']:
+    if tag not in tags:
+      tags.append(tag)
 
 # print the result.
-print(result)
+print({'tags': tags, 'theaterInfos': theaterInfos})
