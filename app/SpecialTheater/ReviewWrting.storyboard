@@ -304,7 +304,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="filled" title="리뷰 남기기"/>
                                                         <connections>
-                                                            <action selector="leaveReview:" destination="nRe-BM-v9c" eventType="touchUpInside" id="jjH-pb-i6d"/>
+                                                            <segue destination="Piv-s8-uiL" kind="unwind" unwindAction="unwindToReview:" id="HAd-lU-cBZ"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -363,6 +363,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Izf-Pg-dAr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Piv-s8-uiL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3447.826086956522" y="97.767857142857139"/>
         </scene>

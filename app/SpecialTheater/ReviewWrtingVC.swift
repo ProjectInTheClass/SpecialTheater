@@ -22,6 +22,9 @@ class ReviewWrtingVC: UIViewController {
     @IBOutlet weak var mood: UISegmentedControl!
     @IBOutlet weak var comment: UITextField!
     
+    var movieName: String = ""
+    var theaterName: String = ""
+    
     private let db = Firestore.firestore()
     private var readNum : Int = 0 // 리뷰 데이터 넘버링
     
@@ -58,7 +61,8 @@ class ReviewWrtingVC: UIViewController {
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
     }
-    @IBAction func leaveReview(_ sender: UIButton) {
+    
+    func upload() {
         // 리뷰 작성시간
         let formatter = DateFormatter()
         formatter.dateFormat = "yyy-MM-dd HH:mm:ss"
@@ -78,8 +82,8 @@ class ReviewWrtingVC: UIViewController {
             "닉네임": userName,
             "비밀번호": userPw,
             "작성일": currentDate,
-            "영화": "",
-            "상영관": "",
+            "영화": self.movieName,
+            "상영관": self.theaterName,
             "스크린 크기": sizeRate,
             "스크린 선명도": qualityRate,
             "사운드": soundRate,

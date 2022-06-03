@@ -111,7 +111,7 @@
                     <navigationItem key="navigationItem" title="리뷰" id="fSE-Dd-6Ig">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Y33-dN-vDq">
                             <connections>
-                                <segue destination="cmR-Bm-gHN" kind="show" id="ixN-wS-bAQ"/>
+                                <segue destination="cmR-Bm-gHN" kind="show" identifier="" id="ixN-wS-bAQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
