@@ -6,11 +6,25 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class ReviewWrtingVC: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var evaluationItemsStackView: UIStackView!
+    
+    @IBOutlet weak var nickname: UITextField!
+    @IBOutlet weak var passwords: UITextField!
+    @IBOutlet weak var screenSize: UISegmentedControl!
+    @IBOutlet weak var screenQuality: UISegmentedControl!
+    @IBOutlet weak var sound: UISegmentedControl!
+    @IBOutlet weak var seat: UISegmentedControl!
+    @IBOutlet weak var mood: UISegmentedControl!
+    @IBOutlet weak var comment: UITextField!
+    
+    private let db = Firestore.firestore()
+    private var readNum : Int = 0 // 리뷰 데이터 넘버링
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,16 +34,6 @@ class ReviewWrtingVC: UIViewController {
 
         self.scrollView.delegate = self
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: - Scrolling with Keyboard
     func registerForKeyboardNotifications() {
@@ -53,6 +57,49 @@ class ReviewWrtingVC: UIViewController {
         let contentInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
+    }
+    @IBAction func leaveReview(_ sender: UIButton) {
+        // 리뷰 작성시간
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyy-MM-dd HH:mm:ss"
+        let currentDate = formatter.string(from: Date())
+        
+        let userName = nickname.text
+        let userPw = passwords.text
+        let userComment = comment.text
+        let sizeRate = screenSize.selectedSegmentIndex + 1
+        let qualityRate = screenQuality.selectedSegmentIndex + 1
+        let soundRate = sound.selectedSegmentIndex + 1
+        let seatRate = seat.selectedSegmentIndex + 1
+        let moodRate = mood.selectedSegmentIndex + 1
+        
+        // 리뷰데이터를 딕셔너리 형태로 저장
+        let reviewData: [String: Any?] = [
+            "닉네임": userName,
+            "비밀번호": userPw,
+            "작성일": currentDate,
+            "영화": "",
+            "상영관": "",
+            "스크린 크기": sizeRate,
+            "스크린 선명도": qualityRate,
+            "사운드": soundRate,
+            "좌석": seatRate,
+            "분위기": moodRate,
+            "코멘트": userComment
+        ]
+        // 리뷰데이터를 작성한 순서대로 정렬하기 위해 각 리뷰데이터의 document에 넘버링
+        let docRef = db.collection("Review").document("Serial_num")
+        docRef.getDocument{ (document, error) in
+            if let document = document, document.exists{
+                let property = document.get("number") as! Int
+                self.readNum = property
+                self.db.collection("Review").document("Review_\(self.readNum)").setData(reviewData as [String : Any]) // 리뷰데이터 저장
+                self.db.collection("Review").document("Serial_num").setData(["number":self.readNum+1]) // DB 내 number 증가
+            }
+            else{
+                print ("Document does not exist!")
+            }
+        }
     }
 }
 
