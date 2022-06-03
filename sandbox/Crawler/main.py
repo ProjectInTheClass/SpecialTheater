@@ -6,43 +6,61 @@ import lottecinema # {name: [[type], genre, posterURL]}
 import megabox     # {name: [[type], code]}
 import cgv         # {name: [[type], code]}
 
+import datetime
+import json
+
 def getMovieData():
   print("데이터 수집을 시작합니다.")
 
   # lottecinema
-  print("롯데시네마...")
-  movieData = lottecinema.getMovies()
+  print("롯데시네마에서 영화 목록을 가져옵니다.")
+  collectedData = lottecinema.getMovies()
 
   # megabox
-  print("메가박스...")
+  print("메가박스에서 영화 목록을 가져옵니다.")
   movieDataFromMegabox = megabox.getMovies()
   for name, [types, code] in movieDataFromMegabox.items():
-    if name in movieData.keys():
-      movieData[name][0] += types
+    if name in collectedData.keys():
+      collectedData[name][0] += types
     else:
       genre, posterURL = megabox.getMovieInfo(code)
-      movieData[name] = [types, genre, posterURL]
+      collectedData[name] = [types, genre, posterURL]
 
   # cgv
-  print("씨지브이...")
+  print("CGV에서 영화 목록을 가져옵니다.")
   movieDataFromCgv = cgv.getMovies()
   for name, [types, code] in movieDataFromCgv.items():
-    if name in movieData.keys():
-      movieData[name][0] += types
+    if name in collectedData.keys():
+      collectedData[name][0] += types
     else:
       try:
         genre, posterURL = cgv.getMovieInfo(code)
-        movieData[name] = [types, genre, posterURL]
+        collectedData[name] = [types, genre, posterURL]
       except:
-        print(f'an error occurs. name:{name} code:{code}')
+        print(f'CGV에서 영화 정보를 가져오는 중 알 수 없는 문제가 발생했습니다. name:{name} code:{code}')
   
-  print("데이터 수집을 완료했습니다..")
-  return movieData
+  print("수집한 데이터를 올바른 형식으로 변환합니다.")
+  date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y%m%d")
+  tidyData = {}
+  tidyData[date] = []
+  for name, contents in collectedData.items():
+    movie = {}
+    movie['name'] = name
+    movie['types'] = contents[0]
+    movie['genre'] = contents[1]
+    if movie['genre'] == '':
+      continue
+    movie['poster'] = contents[2]
+    tidyData[date].append(movie)
+
+  # 변환된 데이터를 json 문자열로 변환합니다.
+  json_string = json.dumps(tidyData, indent=2, ensure_ascii=False)
+
+  return json_string
 
 def main():
   movieData = getMovieData()
-  for name, contents in movieData.items():
-    print(name, contents)
+  print(movieData)
 
 if __name__ == '__main__':
   main()

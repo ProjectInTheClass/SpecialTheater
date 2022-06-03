@@ -27,10 +27,32 @@ def getMovies():
       continue
     if movie["SpecialScreenDivisionCode"][0] == '':
       continue
-    movieData[movie["MovieNameKR"]] = [movie["SpecialScreenDivisionCode"], movie["MovieGenreName"], movie["PosterURL"]]
+
+    movieName = movie["MovieNameKR"]
+
+    if movieName.find('GV') != -1:
+      continue
+
+    colonIdx = movieName.find(':')
+    if colonIdx != -1 and colonIdx > 0 and colonIdx < len(movieName) - 1:
+      if movieName[colonIdx + 1] == ' ':
+        movieName = movieName[:colonIdx + 1] + movieName[colonIdx + 2:]
+      if movieName[colonIdx - 1] == ' ':
+        movieName = movieName[:colonIdx - 1] + movieName[colonIdx:]
+
+    dashIdx = movieName.find('-')
+    if dashIdx != -1 and dashIdx > 0 and dashIdx < len(movieName) - 1:
+      movieName = movieName.replace('-', ':')
+      if movieName[dashIdx + 1] == ' ':
+        movieName = movieName[:dashIdx + 1] + movieName[dashIdx + 2:]
+      if movieName[dashIdx - 1] == ' ':
+        movieName = movieName[:dashIdx - 1] + movieName[dashIdx:]
+
+    movieData[movieName] = [movie["SpecialScreenDivisionCode"], movie["MovieGenreName"], movie["PosterURL"]]
 
   return movieData
 
+# 참고자료: 롯데시네마에서 사용하는 특별관 코드
 # 200 씨네커플
 # 400 아르뗴
 # 300 샤롯데
@@ -44,6 +66,3 @@ def getMovies():
 # 986 씨네콤포트(리클라이너)
 # 987 씨네살롱
 # 988 컬러리움
-
-# {name: [type  , genre, posterURL]}
-# 장르와 포스터는 롯데시네마에서만 빼오기

@@ -88,9 +88,7 @@ def getTheaterCodes():
 
 def getMovies():
   movieData = {}
-  options = webdriver.ChromeOptions()
-  options.add_argument("headless")
-  driver = webdriver.Chrome(options=options)
+  driver = webdriver.Chrome()
   for region, regionCode in REGION_CODES.items():
     if not(region in THEATER_CODES.keys()):
       continue
@@ -99,17 +97,36 @@ def getMovies():
       try:
         iframe = driver.find_element(by=By.CSS_SELECTOR, value='#ifrm_movie_time_table')
       except:
-        print(f'No time table: regionCode:{regionCode}, theaterCode:{theaterCode}')
+        print(f'해당 특별관에 상영 예정인 영화가 없습니다. regionCode:{regionCode}, theaterCode:{theaterCode}')
         continue
       driver.switch_to.frame(iframe)
       try:
         driver.find_element(by=By.CSS_SELECTOR, value='#slider > div:nth-child(1) > ul > li:nth-child(2) > div > a').click()
       except:
-        print(f'No date element: regionCode:{regionCode}, theaterCode:{theaterCode}')
+        print(f'해당 특별관에 대한 시간표가 없습니다. regionCode:{regionCode}, theaterCode:{theaterCode}')
         continue
       movies = driver.find_elements(by=By.CSS_SELECTOR, value='body > div > div.sect-showtimes > ul > li > div > div.info-movie > a')
       for movie in movies:
         movieName = movie.text
+
+        if movieName.find('GV') != -1:
+          continue
+
+        colonIdx = movieName.find(':')
+        if colonIdx != -1 and colonIdx > 0 and colonIdx < len(movieName) - 1:
+          if movieName[colonIdx + 1] == ' ':
+            movieName = movieName[:colonIdx + 1] + movieName[colonIdx + 2:]
+          if movieName[colonIdx - 1] == ' ':
+            movieName = movieName[:colonIdx - 1] + movieName[colonIdx:]
+
+        dashIdx = movieName.find('-')
+        if dashIdx != -1 and dashIdx > 0 and dashIdx < len(movieName) - 1:
+          movieName = movieName.replace('-', ':')
+          if movieName[dashIdx + 1] == ' ':
+            movieName = movieName[:dashIdx + 1] + movieName[dashIdx + 2:]
+          if movieName[dashIdx - 1] == ' ':
+            movieName = movieName[:dashIdx - 1] + movieName[dashIdx:]
+
         movieId = movie.get_attribute('href').split('=')[-1]
         if movieName in movieData.keys():
           if region in movieData[movieName][0]:
@@ -121,12 +138,10 @@ def getMovies():
   return movieData
 
 def getMovieInfo(code):
-  print(f'get the movie information of code: {code}.')  
-  options = webdriver.ChromeOptions()
-  options.add_argument("headless")
-  driver = webdriver.Chrome(options=options)
+  print(f'CGV에서 영화 정보를 수집합니다. {code}.')  
+  driver = webdriver.Chrome()
   driver.get('http://www.cgv.co.kr/movies/detail-view/?midx=' + code)
   posterURL = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-image > a > span > img').get_attribute('src')
   info = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-contents > div.spec').text
-  genre = info[info.find("장르"):].split('/')[0].replace(' ', '').split(',')[0].split(':')[1]
+  genre = info[info.find("장르"):].split('/')[0].replace('\n', '').replace(' ', '').split(',')[0].split(':')[1]
   return (genre, posterURL)
