@@ -80,6 +80,9 @@
                                     <segment title="동일한 영화만"/>
                                     <segment title="전체"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segChanged:" destination="P6g-Dg-dd6" eventType="valueChanged" id="OU5-7s-Da6"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AlU-Xv-IoV"/>
