@@ -46,14 +46,20 @@ class ReviewVC: UIViewController {
         reviewTable.register(reviewContentNib, forCellReuseIdentifier: String(describing: ReviewContent.self))
         reviewTable.dataSource = self
         reviewTable.delegate = self
+        reviewTable.rowHeight = UITableView.automaticDimension
+        reviewTable.estimatedRowHeight = 44
         
         // 리뷰 데이터를 불러옵니다.
         loadReviewsWithMovieName()
+        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "상영관이 정말 좋다. 아무튼 좋다. 매우 좋다. 상영관이 정말 좋다. 아무튼 좋다. 매우 좋다. 상영관이 정말 좋다. 아무튼 좋다. 매우 좋다.상영관이 정말 좋다. 아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
+        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
+        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "아무튼 좋다. 매우 좋다. 아무튼 좋다. 매우 좋다. 아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
     }
     
     // MARK: - 리뷰 데이터 받기
     // 현재 선택된 영화, 상영관에 대한 리뷰를 가져옵니다.
     func loadReviewsWithMovieName() {
+        self.reviews = []
         guard let movieName: String = self.movieInfoLabel.text else { return }
         guard let theaterName: String = self.theaterInfoLabel.text else { return }
         db.collection("Review").whereField("영화", isEqualTo: movieName).whereField("상영관", isEqualTo: theaterName).getDocuments() { (QuerySnapshot, err) in
@@ -80,6 +86,7 @@ class ReviewVC: UIViewController {
     
     // 현재 선택된 상영관에 대한 리뷰를 가져옵니다.
     func loadReviews() {
+        self.reviews = []
         guard let theaterName: String = self.theaterInfoLabel.text else { return }
         db.collection("Review").whereField("상영관", isEqualTo: theaterName).getDocuments() { (QuerySnapshot, err) in
             if let error = err {
