@@ -33,7 +33,7 @@ class ReviewVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         movieInfoView.layer.cornerRadius = 14
         theaterInfoView.layer.cornerRadius = 14
@@ -50,10 +50,8 @@ class ReviewVC: UIViewController {
         reviewTable.estimatedRowHeight = 44
         
         // 리뷰 데이터를 불러옵니다.
-        loadReviewsWithMovieName()
-        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "상영관이 정말 좋다. 아무튼 좋다. 매우 좋다. 상영관이 정말 좋다. 아무튼 좋다. 매우 좋다. 상영관이 정말 좋다. 아무튼 좋다. 매우 좋다.상영관이 정말 좋다. 아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
-        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
-        reviews.append(Review(nickname: "홍길동", password: "1234", datetime: "2022/06/03 13:20", comment: "아무튼 좋다. 매우 좋다. 아무튼 좋다. 매우 좋다. 아무튼 좋다. 매우 좋다.", screenSize: 5, screenQuality: 4, sound: 5, seat: 4, mood: 5, isOpen: false))
+        // loadReviewsWithMovieName()
+        loadAllReviews()
     }
     
     // MARK: - 리뷰 데이터 받기
@@ -62,25 +60,40 @@ class ReviewVC: UIViewController {
         self.reviews = []
         guard let movieName: String = self.movieInfoLabel.text else { return }
         guard let theaterName: String = self.theaterInfoLabel.text else { return }
-        db.collection("Review").whereField("영화", isEqualTo: movieName).whereField("상영관", isEqualTo: theaterName).getDocuments() { (QuerySnapshot, err) in
-            if let error = err {
-                print("리뷰를 가져오는 동안 문제가 발생했습니다. \(error)")
+        print("선택된 영화(\(movieName))와 상영관 (\(theaterName))에 대한 리뷰를 가져옵니다.")
+        db.collection("Review").whereField("영화", isEqualTo: movieName).whereField("상영관", isEqualTo: theaterName).addSnapshotListener{ querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("리뷰 데이터를 가져오는데 실패했습니다.")
                 return
             }
-            for document in QuerySnapshot!.documents{
+            for document in documents {
                 let data = document.data()
-                self.reviews.append(
-                    Review(nickname: data["이름"] as! String,
-                           password: data["비밀번호"] as! String,
-                           datetime: data["작성일"] as! String,
-                           comment: data["코멘트"] as! String,
-                           screenSize: data["스크린 크기"] as! Int,
-                           screenQuality: data["스크린 선명도"] as! Int,
-                           sound: data["사운드"] as! Int,
-                           seat: data["좌석"] as! Int,
-                           mood: data["분위기"] as! Int,
-                           isOpen: false))
+                guard let nickname = data["닉네임"] as? String else { continue }
+                guard let password = data["비밀번호"] as? String else { continue }
+                guard let datetime = data["작성일"] as? String else { continue }
+                guard let comment = data["코멘트"] as? String else { continue }
+                guard let screenSize = data["스크린 크기"] as? Int else { continue }
+                guard let screenQuality = data["스크린 선명도"] as? Int else { continue }
+                guard let sound = data["사운드"] as? Int else { continue }
+                guard let seat = data["좌석"] as? Int else { continue }
+                guard let mood = data["분위기"] as? Int else { continue }
+                let review = Review(nickname: nickname,
+                                    password: password,
+                                    datetime: datetime,
+                                    comment: comment,
+                                    screenSize: screenSize,
+                                    screenQuality: screenQuality,
+                                    sound: sound,
+                                    seat: seat,
+                                    mood: mood,
+                                    isOpen: false)
+                self.reviews.append(review)
+                print("리뷰 데이터가 추가됐습니다.")
+                print(review)
             }
+            print("리뷰 데이터를 모두 가져왔습니다.")
+            print("리뷰 테이블의 데이터를 반영합니다.")
+            self.reviewTable.reloadData()
         }
     }
     
@@ -88,39 +101,94 @@ class ReviewVC: UIViewController {
     func loadReviews() {
         self.reviews = []
         guard let theaterName: String = self.theaterInfoLabel.text else { return }
-        db.collection("Review").whereField("상영관", isEqualTo: theaterName).getDocuments() { (QuerySnapshot, err) in
-            if let error = err {
-                print("리뷰를 가져오는 동안 문제가 발생했습니다. \(error)")
+        print("선택된 상영관(\(theaterName))에 대한 리뷰를 가져옵니다.")
+        db.collection("Review").whereField("상영관", isEqualTo: theaterName).addSnapshotListener{ querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("리뷰 데이터를 가져오는데 실패했습니다.")
                 return
             }
-            for document in QuerySnapshot!.documents{
+            for document in documents {
                 let data = document.data()
-                self.reviews.append(
-                    Review(nickname: data["이름"] as! String,
-                           password: data["비밀번호"] as! String,
-                           datetime: data["작성일"] as! String,
-                           comment: data["코멘트"] as! String,
-                           screenSize: data["스크린 크기"] as! Int,
-                           screenQuality: data["스크린 선명도"] as! Int,
-                           sound: data["사운드"] as! Int,
-                           seat: data["좌석"] as! Int,
-                           mood: data["분위기"] as! Int,
-                           isOpen: false))
+                guard let nickname = data["닉네임"] as? String else { continue }
+                guard let password = data["비밀번호"] as? String else { continue }
+                guard let datetime = data["작성일"] as? String else { continue }
+                guard let comment = data["코멘트"] as? String else { continue }
+                guard let screenSize = data["스크린 크기"] as? Int else { continue }
+                guard let screenQuality = data["스크린 선명도"] as? Int else { continue }
+                guard let sound = data["사운드"] as? Int else { continue }
+                guard let seat = data["좌석"] as? Int else { continue }
+                guard let mood = data["분위기"] as? Int else { continue }
+                let review = Review(nickname: nickname,
+                                    password: password,
+                                    datetime: datetime,
+                                    comment: comment,
+                                    screenSize: screenSize,
+                                    screenQuality: screenQuality,
+                                    sound: sound,
+                                    seat: seat,
+                                    mood: mood,
+                                    isOpen: false)
+                self.reviews.append(review)
+                print("리뷰 데이터가 추가됐습니다.")
+                print(review)
             }
+            print("리뷰 데이터를 모두 가져왔습니다.")
+            print("리뷰 테이블의 데이터를 반영합니다.")
+            self.reviewTable.reloadData()
         }
     }
     
+    // 전체 리뷰를 가져옵니다.
+    func loadAllReviews() {
+        self.reviews = []
+        print("전체 리뷰를 가져옵니다.")
+        db.collection("Review").addSnapshotListener{ querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("리뷰 데이터를 가져오는데 실패했습니다.")
+                return
+            }
+            for document in documents {
+                let data = document.data()
+                guard let nickname = data["닉네임"] as? String else { continue }
+                guard let password = data["비밀번호"] as? String else { continue }
+                guard let datetime = data["작성일"] as? String else { continue }
+                guard let comment = data["코멘트"] as? String else { continue }
+                guard let screenSize = data["스크린 크기"] as? Int else { continue }
+                guard let screenQuality = data["스크린 선명도"] as? Int else { continue }
+                guard let sound = data["사운드"] as? Int else { continue }
+                guard let seat = data["좌석"] as? Int else { continue }
+                guard let mood = data["분위기"] as? Int else { continue }
+                let review = Review(nickname: nickname,
+                                    password: password,
+                                    datetime: datetime,
+                                    comment: comment,
+                                    screenSize: screenSize,
+                                    screenQuality: screenQuality,
+                                    sound: sound,
+                                    seat: seat,
+                                    mood: mood,
+                                    isOpen: false)
+                self.reviews.append(review)
+                print("리뷰 데이터가 추가됐습니다.")
+                print(review)
+            }
+            print("리뷰 데이터를 모두 가져왔습니다.")
+            print("리뷰 테이블의 데이터를 반영합니다.")
+            self.reviewTable.reloadData()
+        }
+    }
+    
+    // MARK: - 세그먼트 컨트롤 이벤트 관리
     @IBAction func segChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             loadReviewsWithMovieName()
         } else {
             loadReviews()
         }
-        reviewTable.reloadData()
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
