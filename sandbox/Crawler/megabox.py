@@ -6,7 +6,7 @@ import datetime
 
 # 특별관 지점 정보가 바뀌었을 경우 사용
 def getSpecialBarchList():
-  fields = {"playDe":datetime.datetime.now().strftime("%Y%m%d")}
+  fields = {'playDe':datetime.datetime.now().strftime('%Y%m%d')}
   headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
   r = requests.post('https://www.megabox.co.kr/on/oh/ohb/PlayTime/selectPlayTimeMasterList.do', data=fields, headers=headers)
   result = json.loads(r.text)
@@ -19,7 +19,7 @@ def getSpecialBarchList():
 
   for brchNo in brchList:
     for type in ['DBC', 'TB', 'MX', 'MKB', 'CFT']:
-      fields = {"masterType":"brch","detailType":"spcl","theabKindCd":f"{type}","brchNo":f"{brchNo}","firstAt":"Y","brchNo1":f"{brchNo}","spclbYn1":"Y","theabKindCd1":f"{type}"}
+      fields = {'masterType':'brch','detailType':'spcl','theabKindCd':f'{type}','brchNo':f'{brchNo}','firstAt':'Y','brchNo1':f'{brchNo}','spclbYn1':'Y','theabKindCd1':f'{type}'}
       r = requests.post('https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do', data=fields, headers=headers)
       result = json.loads(r.text)
       if len(result['megaMap']['movieFormList']) > 0:
@@ -41,16 +41,16 @@ def getMovies():
   for type in ['DBC', 'TB', 'MX', 'MKB', 'CFT']:
     for brchNo in specialBrchList[type]:
       fields = {
-        "masterType": "brch",
-        "detailType": "spcl",
-        "theabKindCd": f"{type}",
-        "brchNo": f"{brchNo}",
-        "firstAt": "N",
-        "playDe": (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y%m%d"),
-        "brchNo1": f"{brchNo}",
-        "spclbYn1": "Y",
-        "theabKindCd1": f"{type}",
-        "crtDe": datetime.datetime.now().strftime("%Y%m%d")
+        'masterType': 'brch',
+        'detailType': 'spcl',
+        'theabKindCd': f'{type}',
+        'brchNo': f'{brchNo}',
+        'firstAt': 'N',
+        'playDe': (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y%m%d'),
+        'brchNo1': f'{brchNo}',
+        'spclbYn1': 'Y',
+        'theabKindCd1': f'{type}',
+        'crtDe': datetime.datetime.now().strftime('%Y%m%d')
       }
       headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
       r = requests.post('https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do', data=fields, headers=headers)
@@ -92,9 +92,9 @@ def getMovies():
 
 # 다른 회사에 없는 영화에 대해서 정보를 수집합니다.
 def getMovieInfo(code):
-  print(f'메가박스에서 영화 정보를 수집합니다. {code}.')
+  print(f'메가박스에서 영화 정보를 수집합니다. code:{code}.')
   options = webdriver.ChromeOptions()
-  options.add_argument("headless")
+  options.add_argument('headless')
   driver = webdriver.Chrome(options=options)
   driver.get('https://megabox.co.kr/movie-detail?rpstMovieNo='+code)
   try:
@@ -105,7 +105,7 @@ def getMovieInfo(code):
     return 
   try:
     info = driver.find_element(by=By.CSS_SELECTOR, value='div.movie-info.infoContent').text
-    genre = info[info.find("장르"):].split('/')[0].replace(' ', '').split(',')[0].split(':')[1]
+    genre = info[info.find('장르'):].split('/')[0].replace(' ', '').split(',')[0].split(':')[1]
   except:
     print(f'메가박스에서 영화 정보를 가져올 수 없습니다. code:{code}')
     driver.quit()

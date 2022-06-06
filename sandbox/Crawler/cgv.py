@@ -41,7 +41,7 @@ THEATER_CODES = {'IMAX': ['0257', '0090', '0007', '0005', '0143', '0012', '0074'
 def getRegionCodes():
   REGION_CODES = {}
   options = webdriver.ChromeOptions()
-  options.add_argument("headless")
+  options.add_argument('headless')
   driver = webdriver.Chrome(options=options)
   driver.get('http://www.cgv.co.kr/theaters/special')
 
@@ -60,7 +60,7 @@ def getRegionCodes():
 def getTheaterCodes():
   THEATER_CODES = {}
   options = webdriver.ChromeOptions()
-  options.add_argument("headless")
+  options.add_argument('headless')
   driver = webdriver.Chrome(options=options)
   for region, code in REGION_CODES.items():
     driver.get(f'http://www.cgv.co.kr/theaters/special/?regioncode={code}')
@@ -138,10 +138,10 @@ def getMovies():
   return movieData
 
 def getMovieInfo(code):
-  print(f'CGV에서 영화 정보를 수집합니다. {code}.')  
+  print(f'CGV에서 영화 정보를 수집합니다. code:{code}.')  
   driver = webdriver.Chrome()
   driver.get('http://www.cgv.co.kr/movies/detail-view/?midx=' + code)
   posterURL = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-image > a > span > img').get_attribute('src')
   info = driver.find_element(by=By.CSS_SELECTOR, value='#select_main > div.sect-base-movie > div.box-contents > div.spec').text
-  genre = info[info.find("장르"):].split('/')[0].replace('\n', '').replace(' ', '').split(',')[0].split(':')[1]
+  genre = info[info.find('장르'):].split('/')[0].replace('\n', '').replace(' ', '').split(',')[0].split(':')[1]
   return (genre, posterURL)

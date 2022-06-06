@@ -3,19 +3,19 @@ import json
 
 def getMovies():
   fields = {
-    "MethodName":"GetMoviesToBe",
-    "channelType":"HO",
-    "osType":"Safari",
-    "osVersion":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15",
-    "multiLanguageID":"KR",
-    "division":"1",
-    "moviePlayYN":"Y",
-    "orderType":"1",
-    "blockSize":"100",
-    "pageNo":"1",
-    "memberOnNo":""
+    'MethodName':'GetMoviesToBe',
+    'channelType':'HO',
+    'osType':'Safari',
+    'osVersion':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
+    'multiLanguageID':'KR',
+    'division':'1',
+    'moviePlayYN':'Y',
+    'orderType':'1',
+    'blockSize':'100',
+    'pageNo':'1',
+    'memberOnNo':''
   }
-  data = {"paramList": str(fields).encode()}
+  data = {'paramList': str(fields).encode()}
   headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
   r = requests.post('https://www.lottecinema.co.kr/LCWS/Movie/MovieData.aspx', data=data, headers=headers)
   result = json.loads(r.text)
@@ -23,12 +23,12 @@ def getMovies():
   movies = result['Movies']['Items']
   movieData = {}
   for movie in movies:
-    if movie["SpecialScreenDivisionCode"] == None:
+    if movie['SpecialScreenDivisionCode'] == None:
       continue
-    if movie["SpecialScreenDivisionCode"][0] == '':
+    if movie['SpecialScreenDivisionCode'][0] == '':
       continue
 
-    movieName = movie["MovieNameKR"]
+    movieName = movie['MovieNameKR']
 
     if movieName.find('GV') != -1:
       continue
@@ -48,7 +48,7 @@ def getMovies():
       if movieName[dashIdx - 1] == ' ':
         movieName = movieName[:dashIdx - 1] + movieName[dashIdx:]
 
-    movieData[movieName] = [movie["SpecialScreenDivisionCode"], movie["MovieGenreName"], movie["PosterURL"]]
+    movieData[movieName] = [movie['SpecialScreenDivisionCode'], movie['MovieGenreName'], movie['PosterURL']]
 
   return movieData
 
