@@ -8,9 +8,7 @@ import UIKit
 
 class MovieItem: UICollectionViewCell {
     @IBOutlet weak var posterImageView: UIImageView!
-    
-    // Data which are deliverd to TheaterSelection View.
-    var name: String = ""
+    @IBOutlet weak var movieLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

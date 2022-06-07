@@ -13,6 +13,8 @@ class TheaterSelectionVC: UIViewController {
     @IBOutlet weak var posterImg: UIImageView!
     @IBOutlet weak var theaterCollection: UICollectionView!
     @IBOutlet weak var selectedMovieTitle: UILabel!
+    
+    @IBOutlet weak var selecedMovieGenre: UILabel!
     @IBOutlet weak var CompanySeg: UISegmentedControl!
     
     let screenTypesOfCGV: [(String, String)] = [("CINE_AND_LIVING_ROOM", "CINE&LIVING ROOM"), ("CINE_DE_CHEF", "CINE de CHEF"), ("CINE_FORET", "CINE&FORET"), ("CINE_KIDS", "CINE KIDS"), ("GOLD_CLASS", "GOLD CLASS"), ("IMAX", "IMAX"), ("PREMIUM", "PREMIUM"), ("PRIVATE_CINEMA", "THE PRIVATE CINEMA"), ("SCREEN_X", "SCREEN X"), ("SKY_BOX", "SKYBOX"), ("SOUND_X", "SOUND X"), ("SPHERE_X", "SPHERE X"), ("STARIUM", "STARIUM"), ("SUITE_CINEMA", "SUITE CINEMA"), ("SWEETBOX", "SWEETBOX"), ("TEMPUR_CINEMA", "TEMPUR CINEMA"), ("_4DX", "4DX"), ("_4DX_SCREEN", "4DX SCREEN"), ("SUBPAC", "SUBPAC"), ("VEATBOX", "VEATBOX"), ("BRAND_COLLABORATION", "BRAND COLLABORATION")]
@@ -20,6 +22,8 @@ class TheaterSelectionVC: UIViewController {
     let screenTypesOfLOTTECINEMA: [(String, String)] = [("CHARLOTTE", "샤롯데"), ("CINE_BIZ", "시네비즈"), ("CINE_COMFORT", "시네 컴포트"), ("CINE_COUPLE", "시네 커플"), ("CINE_FAMILY", "시네 패밀리"), ("CINE_SALON", "시네 샬롱"), ("COLORIUM", "컬러리움"), ("SUPER_4D", "수퍼4D"), ("SUPER_FLEX", "수퍼플렉스"), ("SUPER_FLEX_G", "수퍼플렉스G"), ("SUPER_S", "수퍼S")]
     
     let screenTypesOfMEGABOX: [(String, String)] = [("COMFORT", "컴포트"), ("DOLBY_CINEMA", "돌비시네마"), ("MEGA_KIDS", "메가키즈"), ("MX", "MX"), ("THE_BOUTIQUE", "더 부티크"), ("THE_BOUTIQUE_PRIVATE", "더 부티크 프라이빗")]
+    
+    var theatersSelected : [(String, String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
