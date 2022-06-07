@@ -1,17 +1,13 @@
 
-# Created by 
-https://www.toptal.com/developers/gitignore/api/xcode,macos,cocoapods
-# Edit at 
-https://www.toptal.com/developers/gitignore?templates=xcode,macos,cocoapods
+# Created by https://www.toptal.com/developers/gitignore/api/xcode,macos,cocoapods,firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=xcode,macos,cocoapods,firebase
 
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
 
 # CocoaPods - Only use to conserve bandwidth / Save time on Pushing
 #           - Also handy if you have a large number of dependant pods
-#           - AS PER 
-https://guides.cocoapods.org/using/using-cocoapods.html NEVER IGNORE THE 
-LOCK FILE
+#           - AS PER https://guides.cocoapods.org/using/using-cocoapods.html NEVER IGNORE THE LOCK FILE
 Pods/
 
 ### macOS ###
@@ -63,5 +59,6 @@ xcuserdata/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of 
-https://www.toptal.com/developers/gitignore/api/xcode,macos,cocoapods
+# End of https://www.toptal.com/developers/gitignore/api/xcode,macos,cocoapods,firebase
+sandbox/Crawler/specialtheater-9463a-firebase-adminsdk-t4o5o-686f268e7e.json
+**/__pycache__
