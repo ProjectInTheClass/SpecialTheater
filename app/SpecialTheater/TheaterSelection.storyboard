@@ -38,18 +38,12 @@
                                             <constraint firstAttribute="width" secondItem="sQI-2a-6Ok" secondAttribute="height" multiplier="1:1.414" id="T4w-3F-WgZ"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-4V-gW3">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-4V-gW3">
                                         <rect key="frame" x="105.5" y="10" width="47" height="21.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pTT-qX-g5g">
-                                        <rect key="frame" x="162.5" y="10" width="21.5" height="21.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="pTT-qX-g5g" secondAttribute="height" multiplier="1:1" id="iEF-z1-k0r"/>
-                                        </constraints>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afe-W3-PWl">
                                         <rect key="frame" x="105.5" y="38.5" width="258.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -59,12 +53,9 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="pTT-qX-g5g" firstAttribute="leading" secondItem="Zb4-4V-gW3" secondAttribute="trailing" constant="10" id="Rbq-DG-JJg"/>
                                     <constraint firstItem="afe-W3-PWl" firstAttribute="leading" secondItem="sQI-2a-6Ok" secondAttribute="trailing" constant="10" id="Z2w-Q3-Csh"/>
                                     <constraint firstItem="sQI-2a-6Ok" firstAttribute="centerY" secondItem="pgk-oP-1ss" secondAttribute="centerY" id="cgH-EN-gtb"/>
-                                    <constraint firstItem="pTT-qX-g5g" firstAttribute="top" secondItem="pgk-oP-1ss" secondAttribute="top" constant="10" id="gNV-MF-8df"/>
                                     <constraint firstAttribute="trailing" secondItem="afe-W3-PWl" secondAttribute="trailing" constant="10" id="m1Z-Cw-2xW"/>
-                                    <constraint firstItem="pTT-qX-g5g" firstAttribute="height" secondItem="Zb4-4V-gW3" secondAttribute="height" id="nqb-OG-ah0"/>
                                     <constraint firstItem="Zb4-4V-gW3" firstAttribute="leading" secondItem="sQI-2a-6Ok" secondAttribute="trailing" constant="10" id="pbC-qJ-7tv"/>
                                     <constraint firstItem="sQI-2a-6Ok" firstAttribute="leading" secondItem="pgk-oP-1ss" secondAttribute="leading" constant="10" id="q8U-dY-iUU"/>
                                     <constraint firstItem="sQI-2a-6Ok" firstAttribute="height" secondItem="pgk-oP-1ss" secondAttribute="height" multiplier="0.9" id="qqy-lM-Ccu"/>
@@ -136,6 +127,7 @@
                         <outlet property="CompanySeg" destination="PFa-Rb-Ibr" id="4Iw-fm-8el"/>
                         <outlet property="detailView2" destination="pgk-oP-1ss" id="tda-ll-QDM"/>
                         <outlet property="posterImg" destination="sQI-2a-6Ok" id="OcK-ZQ-eiB"/>
+                        <outlet property="selecedMovieGenre" destination="afe-W3-PWl" id="jL1-At-8gW"/>
                         <outlet property="selectedMovieTitle" destination="Zb4-4V-gW3" id="x2q-La-caG"/>
                         <outlet property="theaterCollection" destination="dwh-dc-YSL" id="HPQ-2E-WYw"/>
                     </connections>

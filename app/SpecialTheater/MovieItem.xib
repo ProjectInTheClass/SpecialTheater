@@ -44,6 +44,7 @@
             </collectionViewCellContentView>
             <size key="customSize" width="225" height="416"/>
             <connections>
+                <outlet property="movieLabel" destination="bBN-Qq-xaL" id="bRF-ZU-dWM"/>
                 <outlet property="posterImageView" destination="1iS-DC-BMQ" id="Gdp-1x-bMg"/>
             </connections>
             <point key="canvasLocation" x="248.55072463768118" y="62.946428571428569"/>

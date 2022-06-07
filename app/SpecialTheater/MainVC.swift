@@ -6,10 +6,22 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class MainVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieCollection: UICollectionView!
+    
+    struct Movie {
+        let movietitle: String
+        let posterurl: String
+        let moviegenre: String
+        let playingtheaters: [String]
+    }
+    var movies: [Movie] = []
+    var moviesFiltered: [Movie] = []
+    
+    private let db = Firestore.firestore()
     
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -20,6 +32,11 @@ class MainVC: UIViewController {
         movieCollection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         movieCollection.dataSource = self
         movieCollection.delegate = self
+        
+        searchBar.delegate = self
+        
+        // 최초 movies리스트 1회 가져오기 및 Filtered 리스트 초기화
+        loadMovieNameAndPoster()
         
         // 사용할 컬렉션뷰 셀을 등록합니다.
         let movieItemNib = UINib(nibName: String(describing: MovieItem.self), bundle: nil)
@@ -38,10 +55,70 @@ class MainVC: UIViewController {
         guard let cell: MovieItem = sender as? MovieItem else { return }
         let _ = destVC.view
         destVC.posterImg.image = cell.posterImageView.image
-        destVC.selectedMovieTitle.text = cell.name
+        destVC.selectedMovieTitle.text = cell.movieLabel.text
+        for movie in movies {
+            if cell.movieLabel.text == movie.movietitle {
+                destVC.selecedMovieGenre.text = movie.moviegenre
+            }
+        }
+    }
+    
+    func loadMovieNameAndPoster() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let current_date_string = formatter.string(from: Date())
+        print(current_date_string)
+        
+        self.movies = []
+        db.collection(current_date_string).addSnapshotListener{ querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("리뷰 데이터를 가져오는데 실패했습니다.")
+                return
+            }
+            for document in documents {
+                let data = document.data()
+                guard let movietitle = data["name"] as? String else { continue }
+                guard let posterurl = data["poster"] as? String else { continue }
+                guard let moviegenre = data["genre"] as? String else { continue }
+                guard let playingtheaters = data["types"] as? [String] else { continue }
+                let movie = Movie(movietitle: movietitle,
+                                  posterurl: posterurl,
+                                  moviegenre: moviegenre,
+                                  playingtheaters: playingtheaters)
+                self.movies.append(movie)
+                print("영화 데이터가 추가됐습니다.")
+                print(movie)
+            }
+            print("영화 데이터를 모두 가져왔습니다.")
+            print("영화 테이블의 데이터를 반영합니다.")
+            self.moviesFiltered = self.movies
+            self.movieCollection.reloadData()
+            print(self.movies.count)
+        }
     }
     
 }
+
+// MARK: - Searchbar delegate
+extension MainVC: UISearchBarDelegate {
+    
+    // identifier
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        moviesFiltered = []
+
+        if searchText == "" {
+            moviesFiltered = movies
+        } else {
+            for movie in movies {
+                if movie.movietitle.lowercased().contains(searchText.lowercased()) {
+                    moviesFiltered.append(movie)
+                }
+            }
+        }
+        self.movieCollection.reloadData()
+    }
+}
+
 
 // MARK: - Collection View Compositional Layout
 extension MainVC {
@@ -67,14 +144,29 @@ extension MainVC {
 extension MainVC: UICollectionViewDataSource {
     // 컬렉션뷰에 표시할 셀의 개수를 리턴합니다.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return moviesFiltered.count
     }
     
     // indexPath번째에 표시할 셀을 리턴합니다.
     // movieItem 클래스에서 셀에 대한 설정이 이뤄집니다.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MovieItem.self), for: indexPath) as! MovieItem
-        cell.name = "닥터스트레인지: 대혼돈의 멀티버스"
+        
+        let url = URL(string: moviesFiltered[indexPath.row].posterurl)
+        
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url!) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        cell.posterImageView.image = image
+                    }
+                }
+            }
+        }
+        
+        
+        
+        cell.movieLabel.text = moviesFiltered[indexPath.row].movietitle
         return cell
     }
 }
