@@ -35,7 +35,7 @@ for movie in movies:
 
 for movie in movie_names:
   for type in types:
-    for i in range(3):
+    for i in range(2):
       # 리뷰 번호 갱신
       ref = db.collection("Review").document("Serial_num")
       number = ref.get().to_dict()['number'] + 1
@@ -53,6 +53,7 @@ for movie in movie_names:
       review['작성일'] = datetime(random.randrange(2011, 2023), random.randrange(1, 13), random.randrange(1, 29), random.randrange(0, 24), random.randrange(0, 60), random.randrange(0, 60)).strftime('%Y-%m-%d %H:%M:%S')
       review['좌석'] = random.randrange(1, 6)
       review['코멘트'] = comments[random.randrange(0, len(comments))]
+      review['리뷰번호'] = f'Review_{number}'
       
       # 리뷰 업로드
       ref = db.collection('Review').document(f'Review_{number}')
