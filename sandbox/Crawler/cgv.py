@@ -129,11 +129,11 @@ def getMovies():
 
         movieId = movie.get_attribute('href').split('=')[-1]
         if movieName in movieData.keys():
-          if region in movieData[movieName][0]:
+          if regionCode in movieData[movieName][0]:
             continue
-          movieData[movieName][0].append(region)
+          movieData[movieName][0].append(regionCode)
         else:
-          movieData[movieName] = [[region], movieId]
+          movieData[movieName] = [[regionCode], movieId]
   driver.quit()
   return movieData
 

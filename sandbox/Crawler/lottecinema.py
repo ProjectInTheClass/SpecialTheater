@@ -48,6 +48,8 @@ def getMovies():
       if movieName[dashIdx - 1] == ' ':
         movieName = movieName[:dashIdx - 1] + movieName[dashIdx:]
 
+    if movie['SpecialScreenDivisionCode'] not in ['300', '941', '987', '988', '930', '980', '940', '986', '960', '200']:
+      continue
     movieData[movieName] = [movie['SpecialScreenDivisionCode'], movie['MovieGenreName'], movie['PosterURL']]
 
   return movieData
