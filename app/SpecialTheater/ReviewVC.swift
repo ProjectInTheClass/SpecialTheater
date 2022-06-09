@@ -14,6 +14,7 @@ class ReviewVC: UIViewController {
     @IBOutlet weak var movieInfoLabel: UILabel!
     @IBOutlet weak var theaterInfoLabel: UILabel!
     @IBOutlet weak var reviewTable: UITableView!
+    @IBOutlet weak var filterSeg: UISegmentedControl!
     var theaterName: String = ""
     
     struct Review {
@@ -53,11 +54,91 @@ class ReviewVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        loadReviewsWithMovieName()
+        if filterSeg.selectedSegmentIndex == 0 {
+            loadReviewsWithMovieName()
+        } else {
+            loadReviews()
+        }
         reviewTable.reloadData()
     }
     
-    // MARK: - 리뷰 데이터 받기
+    // MARK: - 리뷰 삭제
+    func deleteReview(reviewNum: String, password: String) {
+        // 비밀번호를 입력 받는 알림창을 준비합니다.
+        let alert = UIAlertController(
+            title: "리뷰 삭제",
+            message: "리뷰를 작성하실 때 입력했던 비밀번호를 입력해주세요.",
+            preferredStyle: .alert)
+        
+        // 확인 버튼을 누른 경우입니다.
+        let ok = UIAlertAction(title: "삭제", style: .destructive) { [weak alert, weak self](_) in
+            guard let inputPassword = alert?.textFields?[0].text else {
+                return
+            }
+            
+            // 비밀번호를 입력하지 않은 경우입니다.
+            if inputPassword == "" {
+                let warn = UIAlertController(title: nil, message: "비밀번호를 입력해주세요.", preferredStyle: .alert)
+                warn.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                self?.present(warn, animated: true)
+                return
+            }
+            
+            // 비밀번호가 일치하지 않는 경우입니다.
+            if inputPassword != password {
+                let warn = UIAlertController(title: nil, message: "비밀번호가 일치하지 않습니다.", preferredStyle: .alert)
+                warn.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                self?.present(warn, animated: true)
+                return
+            }
+            
+            // 리뷰를 삭제합니다.
+            self?.db.collection("Review").document(reviewNum).delete() { [weak self](err) in
+                if err != nil {
+                    print("리뷰를 삭제하지 못 했습니다. \(String(describing: err))")
+                    return
+                }
+                print("리뷰를 성공적으로 삭제했습니다. reviewNum: \(reviewNum)")
+                
+                // 삭제를 완료했다는 알림을 띄웁니다.
+                let info = UIAlertController(title: nil, message: "리뷰를 삭제했습니다.", preferredStyle: .alert)
+                info.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                self?.present(info, animated: true)
+                
+                // 리뷰 목록을 다시 불러옵니다.
+                self?.reloadReview()
+            }
+        }
+        
+        // 취소 버튼을 누른 경우입니다.
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { (cancel) in
+            return
+        }
+        
+        // 확인 버튼과 취소 버튼, 그리고 비밀번호 입력 필드를 알림창에 추가합니다.
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        alert.addTextField { textFiled in
+            textFiled.placeholder = "비밀번호"
+            textFiled.keyboardType = .numberPad
+            textFiled.isSecureTextEntry = true
+        }
+        
+        // 알림창을 띄웁니다.
+        self.present(alert, animated: true)
+    }
+    
+    // 리뷰 목록을 다시 불러옵니다.
+    func reloadReview() {
+        if filterSeg.selectedSegmentIndex == 0 {
+            loadReviewsWithMovieName()
+        } else {
+            loadReviews()
+        }
+        reviewTable.reloadData()
+    }
+    
+    // MARK: - 리뷰 데이터 받기 (영화, 상영관 필터)
     // 현재 선택된 영화, 상영관에 대한 리뷰를 가져옵니다.
     func loadReviewsWithMovieName() {
         self.reviews = []
@@ -93,8 +174,6 @@ class ReviewVC: UIViewController {
                                     mood: mood,
                                     isOpen: false)
                 self.reviews.append(review)
-                print("리뷰 데이터가 추가됐습니다.")
-                print(review)
             }
             print("리뷰 데이터를 모두 가져왔습니다.")
             print("리뷰 테이블의 데이터를 반영합니다.")
@@ -102,6 +181,7 @@ class ReviewVC: UIViewController {
         }
     }
     
+    // MARK: - 리뷰 데이터 받기 (상영관 필터)
     // 현재 선택된 상영관에 대한 리뷰를 가져옵니다.
     func loadReviews() {
         self.reviews = []
@@ -136,55 +216,10 @@ class ReviewVC: UIViewController {
                                     mood: mood,
                                     isOpen: false)
                 self.reviews.append(review)
-                print("리뷰 데이터가 추가됐습니다.")
-                print(review)
             }
             print("리뷰 데이터를 모두 가져왔습니다.")
             print("리뷰 테이블의 데이터를 반영합니다.")
             self.reviewTable.reloadData()
-        }
-    }
-    
-    // 전체 리뷰를 가져옵니다.
-    func loadAllReviews() {
-        self.reviews = []
-        print("전체 리뷰를 가져옵니다.")
-        db.collection("Review").addSnapshotListener{ querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("리뷰 데이터를 가져오는데 실패했습니다.")
-                return
-            }
-            print("서버로부터 데이터를 잘 가져왔습니다. (3)")
-            for document in documents {
-                let data = document.data()
-                guard let nickname = data["닉네임"] as? String else { continue }
-                guard let password = data["비밀번호"] as? String else { continue }
-                guard let reviewNum = data["리뷰번호"] as? String else { continue }
-                guard let datetime = data["작성일"] as? String else { continue }
-                guard let comment = data["코멘트"] as? String else { continue }
-                guard let screenSize = data["스크린 크기"] as? Int else { continue }
-                guard let screenQuality = data["스크린 선명도"] as? Int else { continue }
-                guard let sound = data["사운드"] as? Int else { continue }
-                guard let seat = data["좌석"] as? Int else { continue }
-                guard let mood = data["분위기"] as? Int else { continue }
-                let review = Review(nickname: nickname,
-                                    password: password,
-                                    reviewNum: reviewNum,
-                                    datetime: datetime,
-                                    comment: comment,
-                                    screenSize: screenSize,
-                                    screenQuality: screenQuality,
-                                    sound: sound,
-                                    seat: seat,
-                                    mood: mood,
-                                    isOpen: false)
-                self.reviews.append(review)
-                print("리뷰 데이터가 추가됐습니다.")
-                print(review)
-            }
-            print("리뷰 데이터를 모두 가져왔습니다.")
-            print("리뷰 테이블의 데이터를 반영합니다.")
-            self.reviewTable?.reloadData()
         }
     }
     
@@ -239,8 +274,7 @@ extension ReviewVC: UITableViewDataSource {
             cell.nicknameLabel.text = reviews[indexPath.section].nickname
             cell.datetimeLabel.text = reviews[indexPath.section].datetime
             cell.commentLabel.text = reviews[indexPath.section].comment
-            
-            cell.viewController = self
+            cell.reviewVC = self
             cell.password = reviews[indexPath.section].password
             cell.reviewNum = reviews[indexPath.section].reviewNum
             return cell

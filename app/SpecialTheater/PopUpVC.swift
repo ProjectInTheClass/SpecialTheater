@@ -24,6 +24,7 @@ class PopUpVC: UIViewController{
     let db = Firestore.firestore()
     var password: String = ""
     var reviewNum: String = ""
+    var viewController: UIViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +126,8 @@ class PopUpVC: UIViewController{
     
     // "해당 리뷰가 삭제되었습니다" 확인 버튼 누를 때
     @IBAction func deletedDonePressed(_ sender: Any) {
+        guard let vc = self.viewController as? ReviewVC else { return }
+        // vc.deleteReview()
         self.dismiss(animated: true, completion: nil)
     }
 }
