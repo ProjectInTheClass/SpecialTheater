@@ -29,4 +29,11 @@ class ReviewItem: UITableViewCell {
         vc.deleteReview(reviewNum: reviewNum, password: password)
     }
     
+    @IBAction func reportReview(_ sender: Any) {
+        guard let vc = reviewVC else {
+            print("리뷰 아이템 셀에서 리뷰 뷰 컨트롤러를 찾을 수 없습니다.")
+            return
+        }
+        vc.reportReview(reviewNum: reviewNum)
+    }
 }

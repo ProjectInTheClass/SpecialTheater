@@ -138,6 +138,66 @@ class ReviewVC: UIViewController {
         reviewTable.reloadData()
     }
     
+    // MARK: - 리뷰 신고
+    func reportReview(reviewNum: String) {
+        // 비밀번호를 입력 받는 알림창을 준비합니다.
+        let alert = UIAlertController(
+            title: "리뷰 신고",
+            message: "해당 리뷰를 정말 신고하시겠어요?",
+            preferredStyle: .alert)
+        
+        // 확인 버튼을 누른 경우입니다.
+        let ok = UIAlertAction(title: "신고", style: .destructive) { [weak self](_) in
+            // 리뷰의 누적신고횟수를 증가시킵니다.
+            self?.db.collection("Review").document(reviewNum).getDocument(completion: { [weak self](document, err) in
+                if let document = document, document.exists {
+                    // 리뷰의 현재 누적신고횟수를 가져옵니다.
+                    guard let accReportedCnt = document.data()?["누적신고횟수"] as? Int else {
+                        print("해당 리뷰에 누적신고횟수가 누락되어 있습니다. reviewNum: \(reviewNum)")
+                        self?.alertFailToReport()
+                        return
+                    }
+                    // 리뷰의 누적신고횟수를 1만큼 증가시킵니다.
+                    self?.db.collection("Review").document(reviewNum).updateData(["누적신고횟수": accReportedCnt + 1], completion: { [weak self](err) in
+                        if err != nil {
+                            print("리뷰를 삭제하지 못 했습니다. \(String(describing: err))")
+                            self?.alertFailToReport()
+                            return
+                        }
+                        print("리뷰를 성공적으로 삭제했습니다. reviewNum: \(reviewNum)")
+                        
+                        // 신고처리를 완료했다는 알림을 띄웁니다.
+                        let info = UIAlertController(title: nil, message: "리뷰에 대한 신고처리가 완료됐습니다.", preferredStyle: .alert)
+                        info.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                        self?.present(info, animated: true)
+                    })
+                } else {
+                    print("해당 리뷰가 존재하지 않습니다. reviewNum: \(reviewNum)")
+                    self?.alertFailToReport()
+                }
+            })
+        }
+        
+        // 취소 버튼을 누른 경우입니다.
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { (cancel) in
+            return
+        }
+        
+        // 확인 버튼과 취소 버튼, 그리고 비밀번호 입력 필드를 알림창에 추가합니다.
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        // 알림창을 띄웁니다.
+        self.present(alert, animated: true)
+    }
+    
+    func alertFailToReport() {
+        // 신고처리를 완료했다는 알림을 띄웁니다.
+        let info = UIAlertController(title: nil, message: "기술적인 문제로 신고를 할 수 없어요.", preferredStyle: .alert)
+        info.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        self.present(info, animated: true)
+    }
+    
     // MARK: - 리뷰 데이터 받기 (영화, 상영관 필터)
     // 현재 선택된 영화, 상영관에 대한 리뷰를 가져옵니다.
     func loadReviewsWithMovieName() {
