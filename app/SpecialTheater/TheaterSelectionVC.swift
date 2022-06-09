@@ -17,19 +17,25 @@ class TheaterSelectionVC: UIViewController {
     @IBOutlet weak var selecedMovieGenre: UILabel!
     @IBOutlet weak var CompanySeg: UISegmentedControl!
     
-    let screenTypesOfCGV: [(String, String)] = [("CINE_AND_LIVING_ROOM", "CINE&LIVING ROOM"), ("CINE_DE_CHEF", "CINE de CHEF"), ("CINE_FORET", "CINE&FORET"), ("CINE_KIDS", "CINE KIDS"), ("GOLD_CLASS", "GOLD CLASS"), ("IMAX", "IMAX"), ("PREMIUM", "PREMIUM"), ("PRIVATE_CINEMA", "THE PRIVATE CINEMA"), ("SCREEN_X", "SCREEN X"), ("SKY_BOX", "SKYBOX"), ("SOUND_X", "SOUND X"), ("SPHERE_X", "SPHERE X"), ("STARIUM", "STARIUM"), ("SUITE_CINEMA", "SUITE CINEMA"), ("SWEETBOX", "SWEETBOX"), ("TEMPUR_CINEMA", "TEMPUR CINEMA"), ("_4DX", "4DX"), ("_4DX_SCREEN", "4DX SCREEN"), ("SUBPAC", "SUBPAC"), ("VEATBOX", "VEATBOX"), ("BRAND_COLLABORATION", "BRAND COLLABORATION")]
+    let screenTypesOfCGV: [(String, String)] = [("LM", "CINE&LIVING ROOM"), ("103", "CINE de CHEF"), ("CF", "CINE&FORET"), ("CK", "CINE KIDS"), ("99", "GOLD CLASS"), ("07", "IMAX"), ("PRM", "PREMIUM"), ("pc", "THE PRIVATE CINEMA"), ("SCX", "SCREEN X"), ("SKY", "SKYBOX"), ("SDX", "SOUND X"), ("SPX", "SPHERE X"), ("110", "STARIUM"), ("SC", "SUITE CINEMA"), ("09", "SWEETBOX"), ("TEM", "TEMPUR CINEMA"), ("4D14", "4DX"), ("4DXSC", "4DX SCREEN")]
     
-    let screenTypesOfLOTTECINEMA: [(String, String)] = [("CHARLOTTE", "샤롯데"), ("CINE_BIZ", "시네비즈"), ("CINE_COMFORT", "시네 컴포트"), ("CINE_COUPLE", "시네 커플"), ("CINE_FAMILY", "시네 패밀리"), ("CINE_SALON", "시네 샬롱"), ("COLORIUM", "컬러리움"), ("SUPER_4D", "수퍼4D"), ("SUPER_FLEX", "수퍼플렉스"), ("SUPER_FLEX_G", "수퍼플렉스G"), ("SUPER_S", "수퍼S")]
+    let screenTypesOfLOTTECINEMA: [(String, String)] = [("300", "샤롯데"), ("950", "시네 비즈"), ("986", "시네 컴포트"), ("200", "시네 커플"), ("960", "시네 패밀리"), ("987", "시네 살롱"), ("988", "컬러리움"), ("930", "수퍼4D"), ("940", "수퍼플렉스"), ("941", "수퍼플렉스G"), ("980", "수퍼S"), ("400", "아르떼")]
     
-    let screenTypesOfMEGABOX: [(String, String)] = [("COMFORT", "컴포트"), ("DOLBY_CINEMA", "돌비시네마"), ("MEGA_KIDS", "메가키즈"), ("MX", "MX"), ("THE_BOUTIQUE", "더 부티크"), ("THE_BOUTIQUE_PRIVATE", "더 부티크 프라이빗")]
+    let screenTypesOfMEGABOX: [(String, String)] = [("CFT", "컴포트"), ("DBC", "돌비시네마"), ("MKB", "메가키즈"), ("MX", "MX"), ("TB", "더 부티크")]
     
-    var theatersSelected : [(String, String)] = []
+    var theatersSelected : [String] = []
     
+    var cgvSelected: [(String, String)] = []
+    var lotteSelected: [(String, String)] = []
+    var megaSelected: [(String, String)] = []
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         detailView2.layer.cornerRadius = 14
         posterImg.layer.cornerRadius = 14
+        
         
         // 사용할 컬렉션뷰 셀을 등록합니다.
         let theaterItemNib = UINib(nibName: String(describing: TheaterItem.self), bundle: nil)
@@ -41,6 +47,8 @@ class TheaterSelectionVC: UIViewController {
         theaterCollection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         theaterCollection.dataSource = self
         theaterCollection.delegate = self
+        
+        
     }
     
     @IBAction func companySelectionChanged(_ sender: Any) {
@@ -83,19 +91,36 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // TODO: - Segment Control이 선택된 것에 따라 다른 수를 반환합니다.
         var numberOfItems = 0
+        print(theatersSelected)
         switch CompanySeg.selectedSegmentIndex {
         case 0:
-            numberOfItems = screenTypesOfCGV.count
+            for cgv in screenTypesOfCGV {
+                if theatersSelected.contains(cgv.0) {
+                    numberOfItems += 1
+                    cgvSelected.append(cgv)
+                }
+            }
             break
         case 1:
-            numberOfItems = screenTypesOfLOTTECINEMA.count
+            for lotte in screenTypesOfLOTTECINEMA {
+                if theatersSelected.contains(lotte.0) {
+                    numberOfItems += 1
+                    lotteSelected.append(lotte)
+                }
+            }
             break
         case 2:
-            numberOfItems = screenTypesOfMEGABOX.count
+            for mega in screenTypesOfMEGABOX {
+                if theatersSelected.contains(mega.0) {
+                    numberOfItems += 1
+                    megaSelected.append(mega)
+                }
+            }
             break
         default:
             numberOfItems = 0
         }
+        print(numberOfItems)
         return numberOfItems
     }
     
@@ -105,19 +130,22 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
         switch CompanySeg.selectedSegmentIndex {
         case 0:
             cell.company = "CGV"
-            cell.type = screenTypesOfCGV[indexPath.row].1
-            cell.theaterImage.image = UIImage(named: screenTypesOfCGV[indexPath.row].0)
+            cell.type = cgvSelected[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: cgvSelected[indexPath.row].0)
             break
+            
         case 1:
             cell.company = "롯데시네마"
-            cell.type = screenTypesOfLOTTECINEMA[indexPath.row].1
-            cell.theaterImage.image = UIImage(named: screenTypesOfLOTTECINEMA[indexPath.row].0)
+            cell.type = lotteSelected[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: lotteSelected[indexPath.row].0)
             break
+            
         case 2:
             cell.company = "메가박스"
-            cell.type = screenTypesOfMEGABOX[indexPath.row].1
-            cell.theaterImage.image = UIImage(named: screenTypesOfMEGABOX[indexPath.row].0)
+            cell.type = megaSelected[indexPath.row].1
+            cell.theaterImage.image = UIImage(named: megaSelected[indexPath.row].0)
             break
+            
         default:
             print("Invalid Segment Control", indexPath)
         }

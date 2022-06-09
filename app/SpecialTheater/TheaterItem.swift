@@ -13,6 +13,7 @@ class TheaterItem: UICollectionViewCell {
     var type: String = ""
 
     @IBOutlet weak var theaterImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.layer.cornerRadius = 14

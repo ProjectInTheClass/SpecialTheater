@@ -59,6 +59,8 @@ class MainVC: UIViewController {
         for movie in movies {
             if cell.movieLabel.text == movie.movietitle {
                 destVC.selecedMovieGenre.text = movie.moviegenre
+                destVC.theatersSelected = movie.playingtheaters
+//                print(movie.playingtheaters)
             }
         }
     }
