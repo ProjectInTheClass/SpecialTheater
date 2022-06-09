@@ -60,11 +60,11 @@ class MainVC: UIViewController {
             if cell.movieLabel.text == movie.movietitle {
                 destVC.selecedMovieGenre.text = movie.moviegenre
                 destVC.theatersSelected = movie.playingtheaters
-//                print(movie.playingtheaters)
             }
         }
     }
     
+    // MARK: - 영화 정보 불러오기
     func loadMovieNameAndPoster() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -88,14 +88,18 @@ class MainVC: UIViewController {
                                   moviegenre: moviegenre,
                                   playingtheaters: playingtheaters)
                 self.movies.append(movie)
-                print("영화 데이터가 추가됐습니다.")
-                print(movie)
             }
             print("영화 데이터를 모두 가져왔습니다.")
+            
+            // 영화 데이터를 상영관이 많은 순서대로 정렬합니다.
+            self.movies.sort(by: {(lhs, rhs) in
+                return lhs.playingtheaters.count > rhs.playingtheaters.count
+            })
+            
+            // 영화 데이터를 저장하고 컬렉션뷰를 다시 로드합니다.
             print("영화 테이블의 데이터를 반영합니다.")
             self.moviesFiltered = self.movies
             self.movieCollection.reloadData()
-            print(self.movies.count)
         }
     }
     
@@ -156,7 +160,7 @@ extension MainVC: UICollectionViewDataSource {
         
         let url = URL(string: moviesFiltered[indexPath.row].posterurl)
         
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global().async { () in
             if let data = try? Data(contentsOf: url!) {
                 if let image = UIImage(data: data) {
                     DispatchQueue.main.async {
@@ -165,8 +169,6 @@ extension MainVC: UICollectionViewDataSource {
                 }
             }
         }
-        
-        
         
         cell.movieLabel.text = moviesFiltered[indexPath.row].movietitle
         return cell
