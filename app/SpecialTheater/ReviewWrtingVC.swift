@@ -98,7 +98,7 @@ class ReviewWrtingVC: UIViewController {
             if let document = document, document.exists{
                 let property = document.get("number") as! Int
                 self.readNum = property
-                reviewData.updateValue("Review_\(self.reviewNum)", forKey: "리뷰번호")
+                reviewData.updateValue("Review_\(self.readNum)", forKey: "리뷰번호")
                 self.db.collection("Review").document("Review_\(self.readNum)").setData(reviewData as [String : Any]) // 리뷰데이터 저장
                 self.db.collection("Review").document("Serial_num").setData(["number":self.readNum+1]) // DB 내 number 증가
             }

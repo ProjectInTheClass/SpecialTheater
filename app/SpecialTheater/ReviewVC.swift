@@ -14,6 +14,7 @@ class ReviewVC: UIViewController {
     @IBOutlet weak var movieInfoLabel: UILabel!
     @IBOutlet weak var theaterInfoLabel: UILabel!
     @IBOutlet weak var reviewTable: UITableView!
+    var theaterName: String = ""
     
     struct Review {
         let nickname: String
@@ -49,10 +50,11 @@ class ReviewVC: UIViewController {
         reviewTable.delegate = self
         reviewTable.rowHeight = UITableView.automaticDimension
         reviewTable.estimatedRowHeight = 44
-        
-        // 리뷰 데이터를 불러옵니다.
-        // loadReviewsWithMovieName()
-        loadAllReviews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadReviewsWithMovieName()
+        reviewTable.reloadData()
     }
     
     // MARK: - 리뷰 데이터 받기
@@ -60,13 +62,13 @@ class ReviewVC: UIViewController {
     func loadReviewsWithMovieName() {
         self.reviews = []
         guard let movieName: String = self.movieInfoLabel.text else { return }
-        guard let theaterName: String = self.theaterInfoLabel.text else { return }
         print("선택된 영화(\(movieName))와 상영관 (\(theaterName))에 대한 리뷰를 가져옵니다.")
         db.collection("Review").whereField("영화", isEqualTo: movieName).whereField("상영관", isEqualTo: theaterName).addSnapshotListener{ querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("리뷰 데이터를 가져오는데 실패했습니다.")
                 return
             }
+            print("서버로부터 데이터를 잘 가져왔습니다. (1)")
             for document in documents {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
@@ -103,13 +105,13 @@ class ReviewVC: UIViewController {
     // 현재 선택된 상영관에 대한 리뷰를 가져옵니다.
     func loadReviews() {
         self.reviews = []
-        guard let theaterName: String = self.theaterInfoLabel.text else { return }
         print("선택된 상영관(\(theaterName))에 대한 리뷰를 가져옵니다.")
         db.collection("Review").whereField("상영관", isEqualTo: theaterName).addSnapshotListener{ querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("리뷰 데이터를 가져오는데 실패했습니다.")
                 return
             }
+            print("서버로부터 데이터를 잘 가져왔습니다. (2)")
             for document in documents {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
@@ -152,6 +154,7 @@ class ReviewVC: UIViewController {
                 print("리뷰 데이터를 가져오는데 실패했습니다.")
                 return
             }
+            print("서버로부터 데이터를 잘 가져왔습니다. (3)")
             for document in documents {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
@@ -202,7 +205,7 @@ class ReviewVC: UIViewController {
         // Pass the selected object to the new view controller.
         guard let dest = segue.destination as? ReviewWrtingVC else { return }
         dest.movieName = self.movieInfoLabel.text!
-        dest.theaterName = self.theaterInfoLabel.text!
+        dest.theaterName = self.theaterName
     }
     
     // 리뷰 작성 페이지에서 되돌아오면 작성한 리뷰를 업로드합니다.

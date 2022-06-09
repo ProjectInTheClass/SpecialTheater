@@ -63,6 +63,7 @@ class TheaterSelectionVC: UIViewController {
         let _ = destVC.view
         destVC.movieInfoLabel.text = selectedMovieTitle.text
         destVC.theaterInfoLabel.text = cell.company + " " + cell.type
+        destVC.theaterName = cell.type
     }
 }
 
