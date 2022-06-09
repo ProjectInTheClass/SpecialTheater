@@ -78,9 +78,10 @@ class ReviewWrtingVC: UIViewController {
         let moodRate = mood.selectedSegmentIndex + 1
         
         // 리뷰데이터를 딕셔너리 형태로 저장
-        let reviewData: [String: Any?] = [
+        var reviewData: [String: Any?] = [
             "닉네임": userName,
             "비밀번호": userPw,
+            "리뷰번호": "",
             "작성일": currentDate,
             "영화": self.movieName,
             "상영관": self.theaterName,
@@ -97,6 +98,7 @@ class ReviewWrtingVC: UIViewController {
             if let document = document, document.exists{
                 let property = document.get("number") as! Int
                 self.readNum = property
+                reviewData.updateValue("Review_\(self.reviewNum)", forKey: "리뷰번호")
                 self.db.collection("Review").document("Review_\(self.readNum)").setData(reviewData as [String : Any]) // 리뷰데이터 저장
                 self.db.collection("Review").document("Serial_num").setData(["number":self.readNum+1]) // DB 내 number 증가
             }

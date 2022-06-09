@@ -18,6 +18,7 @@ class ReviewVC: UIViewController {
     struct Review {
         let nickname: String
         let password: String
+        let reviewNum: String
         let datetime: String
         let comment: String
         let screenSize: Int
@@ -70,6 +71,7 @@ class ReviewVC: UIViewController {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
                 guard let password = data["비밀번호"] as? String else { continue }
+                guard let reviewNum = data["리뷰번호"] as? String else { continue }
                 guard let datetime = data["작성일"] as? String else { continue }
                 guard let comment = data["코멘트"] as? String else { continue }
                 guard let screenSize = data["스크린 크기"] as? Int else { continue }
@@ -79,6 +81,7 @@ class ReviewVC: UIViewController {
                 guard let mood = data["분위기"] as? Int else { continue }
                 let review = Review(nickname: nickname,
                                     password: password,
+                                    reviewNum: reviewNum,
                                     datetime: datetime,
                                     comment: comment,
                                     screenSize: screenSize,
@@ -111,6 +114,7 @@ class ReviewVC: UIViewController {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
                 guard let password = data["비밀번호"] as? String else { continue }
+                guard let reviewNum = data["리뷰번호"] as? String else { continue }
                 guard let datetime = data["작성일"] as? String else { continue }
                 guard let comment = data["코멘트"] as? String else { continue }
                 guard let screenSize = data["스크린 크기"] as? Int else { continue }
@@ -120,6 +124,7 @@ class ReviewVC: UIViewController {
                 guard let mood = data["분위기"] as? Int else { continue }
                 let review = Review(nickname: nickname,
                                     password: password,
+                                    reviewNum: reviewNum,
                                     datetime: datetime,
                                     comment: comment,
                                     screenSize: screenSize,
@@ -151,6 +156,7 @@ class ReviewVC: UIViewController {
                 let data = document.data()
                 guard let nickname = data["닉네임"] as? String else { continue }
                 guard let password = data["비밀번호"] as? String else { continue }
+                guard let reviewNum = data["리뷰번호"] as? String else { continue }
                 guard let datetime = data["작성일"] as? String else { continue }
                 guard let comment = data["코멘트"] as? String else { continue }
                 guard let screenSize = data["스크린 크기"] as? Int else { continue }
@@ -160,6 +166,7 @@ class ReviewVC: UIViewController {
                 guard let mood = data["분위기"] as? Int else { continue }
                 let review = Review(nickname: nickname,
                                     password: password,
+                                    reviewNum: reviewNum,
                                     datetime: datetime,
                                     comment: comment,
                                     screenSize: screenSize,
@@ -174,7 +181,7 @@ class ReviewVC: UIViewController {
             }
             print("리뷰 데이터를 모두 가져왔습니다.")
             print("리뷰 테이블의 데이터를 반영합니다.")
-            self.reviewTable.reloadData()
+            self.reviewTable?.reloadData()
         }
     }
     
@@ -229,6 +236,10 @@ extension ReviewVC: UITableViewDataSource {
             cell.nicknameLabel.text = reviews[indexPath.section].nickname
             cell.datetimeLabel.text = reviews[indexPath.section].datetime
             cell.commentLabel.text = reviews[indexPath.section].comment
+            
+            cell.viewController = self
+            cell.password = reviews[indexPath.section].password
+            cell.reviewNum = reviews[indexPath.section].reviewNum
             return cell
         } else {
             // 리뷰가 펼쳐진 이후에 보이는 셀입니다.
