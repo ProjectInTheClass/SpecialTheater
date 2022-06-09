@@ -54,6 +54,7 @@ for movie in movie_names:
       review['좌석'] = random.randrange(1, 6)
       review['코멘트'] = comments[random.randrange(0, len(comments))]
       review['리뷰번호'] = f'Review_{number}'
+      review['누적신고횟수'] = 0
       
       # 리뷰 업로드
       ref = db.collection('Review').document(f'Review_{number}')
