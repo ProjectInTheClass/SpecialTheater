@@ -118,6 +118,8 @@ class PopUpVC: UIViewController{
             alertPopUpVC.modalPresentationStyle = .overCurrentContext
             alertPopUpVC.modalTransitionStyle = .crossDissolve
             guard let pvc = self.presentingViewController else {return}
+            ReviewVC.loadReviews()
+            ReviewVC.loadAllReviews()
             self.dismiss(animated: true){
                 pvc.present(alertPopUpVC,animated: true, completion: nil)
             }
