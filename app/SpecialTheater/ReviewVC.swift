@@ -54,12 +54,26 @@ class ReviewVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if filterSeg.selectedSegmentIndex == 0 {
-            loadReviewsWithMovieName()
-        } else {
-            loadReviews()
-        }
-        reviewTable.reloadData()
+        self.reloadReview()
+    }
+    
+    // MARK: - 토스트 메시지
+    func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
     
     // MARK: - 리뷰 삭제
@@ -128,14 +142,13 @@ class ReviewVC: UIViewController {
         self.present(alert, animated: true)
     }
     
-    // 리뷰 목록을 다시 불러옵니다.
+    // MARK: - 리뷰 목록 다시 불러오기
     func reloadReview() {
         if filterSeg.selectedSegmentIndex == 0 {
             loadReviewsWithMovieName()
         } else {
             loadReviews()
         }
-        reviewTable.reloadData()
     }
     
     // MARK: - 리뷰 신고
@@ -238,6 +251,9 @@ class ReviewVC: UIViewController {
             print("리뷰 데이터를 모두 가져왔습니다.")
             print("리뷰 테이블의 데이터를 반영합니다.")
             self.reviewTable.reloadData()
+            if self.reviews.count == 0 {
+                self.showToast(message: "리뷰가 없어요 :(")
+            }
         }
     }
     
@@ -280,6 +296,9 @@ class ReviewVC: UIViewController {
             print("리뷰 데이터를 모두 가져왔습니다.")
             print("리뷰 테이블의 데이터를 반영합니다.")
             self.reviewTable.reloadData()
+            if self.reviews.count == 0 {
+                self.showToast(message: "리뷰가 없어요 :(")
+            }
         }
     }
     

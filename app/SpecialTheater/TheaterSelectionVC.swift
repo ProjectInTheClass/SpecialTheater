@@ -47,13 +47,30 @@ class TheaterSelectionVC: UIViewController {
         theaterCollection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         theaterCollection.dataSource = self
         theaterCollection.delegate = self
-        
-        
     }
     
     @IBAction func companySelectionChanged(_ sender: Any) {
         self.theaterCollection.reloadData()
         self.theaterCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    // MARK: - 토스트 메시지
+    func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
     
     // MARK: - Navigation
@@ -90,9 +107,8 @@ extension TheaterSelectionVC {
 // MARK: - Data Source
 extension TheaterSelectionVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // TODO: - Segment Control이 선택된 것에 따라 다른 수를 반환합니다.
+        // Segment Control이 선택된 것에 따라 다른 수를 반환합니다.
         var numberOfItems = 0
-        print(theatersSelected)
         switch CompanySeg.selectedSegmentIndex {
         case 0:
             for cgv in screenTypesOfCGV {
@@ -121,12 +137,14 @@ extension TheaterSelectionVC: UICollectionViewDataSource {
         default:
             numberOfItems = 0
         }
-        print(numberOfItems)
+        if numberOfItems == 0 {
+            self.showToast(message: "상영관이 없어요 :(")
+        }
         return numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // TODO: - Segment Control이 선택된 것에 따라 다른 셀을 반환합니다.
+        // Segment Control이 선택된 것에 따라 다른 셀을 반환합니다.
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TheaterItem.self), for: indexPath) as! TheaterItem
         switch CompanySeg.selectedSegmentIndex {
         case 0:
