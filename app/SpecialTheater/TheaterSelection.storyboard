@@ -39,7 +39,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-4V-gW3">
-                                        <rect key="frame" x="105.5" y="10" width="47" height="21.5"/>
+                                        <rect key="frame" x="105.5" y="10" width="258.5" height="21.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -53,6 +53,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Zb4-4V-gW3" secondAttribute="trailing" constant="10" id="KjO-zy-bno"/>
                                     <constraint firstItem="afe-W3-PWl" firstAttribute="leading" secondItem="sQI-2a-6Ok" secondAttribute="trailing" constant="10" id="Z2w-Q3-Csh"/>
                                     <constraint firstItem="sQI-2a-6Ok" firstAttribute="centerY" secondItem="pgk-oP-1ss" secondAttribute="centerY" id="cgH-EN-gtb"/>
                                     <constraint firstAttribute="trailing" secondItem="afe-W3-PWl" secondAttribute="trailing" constant="10" id="m1Z-Cw-2xW"/>

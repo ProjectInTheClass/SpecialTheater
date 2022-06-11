@@ -31,8 +31,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oaz-XH-112">
                                 <rect key="frame" x="20" y="98" width="374" height="45"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닥터스트레인지: 대혼돈의 멀티버스" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILD-8h-y4x">
-                                        <rect key="frame" x="63" y="11.5" width="248" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닥터스트레인지: 대혼돈의 멀티버스" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILD-8h-y4x">
+                                        <rect key="frame" x="15" y="11.5" width="344" height="22"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -40,15 +40,16 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ILD-8h-y4x" secondAttribute="trailing" constant="15" id="6W9-Oo-pjQ"/>
                                     <constraint firstItem="ILD-8h-y4x" firstAttribute="centerY" secondItem="Oaz-XH-112" secondAttribute="centerY" id="QZl-8c-mlg"/>
-                                    <constraint firstItem="ILD-8h-y4x" firstAttribute="centerX" secondItem="Oaz-XH-112" secondAttribute="centerX" id="zXE-cK-Iav"/>
+                                    <constraint firstItem="ILD-8h-y4x" firstAttribute="leading" secondItem="Oaz-XH-112" secondAttribute="leading" constant="15" id="USq-ev-bXu"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3H-hd-bEV">
                                 <rect key="frame" x="20" y="153" width="374" height="44.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데시네마 월드타워점 SUPERFLEX G" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Qk-EZ-HP9">
-                                        <rect key="frame" x="54.5" y="11.5" width="265" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데시네마 월드타워점 SUPERFLEX G" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Qk-EZ-HP9">
+                                        <rect key="frame" x="15" y="11.5" width="344" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -56,8 +57,9 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="9Qk-EZ-HP9" firstAttribute="leading" secondItem="V3H-hd-bEV" secondAttribute="leading" constant="15" id="5gb-gn-sbh"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Qk-EZ-HP9" secondAttribute="trailing" constant="15" id="JVY-rD-Vqs"/>
                                     <constraint firstItem="9Qk-EZ-HP9" firstAttribute="centerY" secondItem="V3H-hd-bEV" secondAttribute="centerY" id="eJ5-Pd-S2x"/>
-                                    <constraint firstItem="9Qk-EZ-HP9" firstAttribute="centerX" secondItem="V3H-hd-bEV" secondAttribute="centerX" id="kbJ-eK-QRi"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ruL-Bf-V3a">

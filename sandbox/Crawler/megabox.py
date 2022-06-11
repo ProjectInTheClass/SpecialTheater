@@ -67,16 +67,16 @@ def getMovies():
           continue
 
         if movieName.find('[F]') != -1:
-          movieName[movieName.find('[F]') + 4:]
+          movieName = movieName[movieName.find('[F]') + 4:]
 
         if movieName.find('[오페라]') != -1:
-          movieName[movieName.find('[오페라]') + 6:]
+          movieName = movieName[movieName.find('[오페라]') + 6:]
 
         if movieName.find('[유료시사]') != -1:
-          movieName[movieName.find('[오페라]') + 7:]
+          movieName = movieName[movieName.find('[유료시사]') + 7:]
 
         if movieName.find('@The Met') != -1:
-          movieName[:movieName.find('@The Met') - 1]
+          movieName = movieName[:movieName.find('@The Met') - 1]
 
         colonIdx = movieName.find(':')
         if colonIdx != -1 and colonIdx > 0 and colonIdx < len(movieName) - 1:
