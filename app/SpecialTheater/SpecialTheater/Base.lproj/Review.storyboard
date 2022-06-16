@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="P6g-Dg-dd6">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--리뷰-->
+        <scene sceneID="si6-tg-vWa">
+            <objects>
+                <viewController id="P6g-Dg-dd6" customClass="ReviewVC" customModule="SpecialTheater" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rby-2d-Lo4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선택하신 정보에요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Hn-UI-T6S">
+                                <rect key="frame" x="30" y="64" width="354" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이 상영관을 다녀간 분들이 작성한 리뷰에요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="th8-S2-bTs">
+                                <rect key="frame" x="30" y="217.5" width="354" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oaz-XH-112">
+                                <rect key="frame" x="20" y="98" width="374" height="45"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닥터스트레인지: 대혼돈의 멀티버스" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILD-8h-y4x">
+                                        <rect key="frame" x="15" y="11.5" width="344" height="22"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ILD-8h-y4x" secondAttribute="trailing" constant="15" id="6W9-Oo-pjQ"/>
+                                    <constraint firstItem="ILD-8h-y4x" firstAttribute="centerY" secondItem="Oaz-XH-112" secondAttribute="centerY" id="QZl-8c-mlg"/>
+                                    <constraint firstItem="ILD-8h-y4x" firstAttribute="leading" secondItem="Oaz-XH-112" secondAttribute="leading" constant="15" id="USq-ev-bXu"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3H-hd-bEV">
+                                <rect key="frame" x="20" y="153" width="374" height="44.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="롯데시네마 월드타워점 SUPERFLEX G" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Qk-EZ-HP9">
+                                        <rect key="frame" x="15" y="11.5" width="344" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="9Qk-EZ-HP9" firstAttribute="leading" secondItem="V3H-hd-bEV" secondAttribute="leading" constant="15" id="5gb-gn-sbh"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Qk-EZ-HP9" secondAttribute="trailing" constant="15" id="JVY-rD-Vqs"/>
+                                    <constraint firstItem="9Qk-EZ-HP9" firstAttribute="centerY" secondItem="V3H-hd-bEV" secondAttribute="centerY" id="eJ5-Pd-S2x"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ruL-Bf-V3a">
+                                <rect key="frame" x="20" y="292.5" width="374" height="549.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewCell" id="h0s-0S-cFI">
+                                        <rect key="frame" x="0.0" y="44.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h0s-0S-cFI" id="Tzz-Hj-MC0">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3AR-Nh-kzL">
+                                <rect key="frame" x="20" y="251.5" width="374" height="32"/>
+                                <segments>
+                                    <segment title="동일한 영화만"/>
+                                    <segment title="전체"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segChanged:" destination="P6g-Dg-dd6" eventType="valueChanged" id="OU5-7s-Da6"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="AlU-Xv-IoV"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="V3H-hd-bEV" firstAttribute="height" secondItem="Rby-2d-Lo4" secondAttribute="height" multiplier="0.05" id="1hO-CP-K8P"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="bottom" secondItem="ruL-Bf-V3a" secondAttribute="bottom" constant="20" id="3kx-SW-i1E"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="trailing" secondItem="3AR-Nh-kzL" secondAttribute="trailing" constant="20" id="4MP-tN-ecG"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="trailing" secondItem="7Hn-UI-T6S" secondAttribute="trailing" constant="30" id="51q-51-p25"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="trailing" secondItem="Oaz-XH-112" secondAttribute="trailing" constant="20" id="ENB-O2-zhl"/>
+                            <constraint firstItem="th8-S2-bTs" firstAttribute="top" secondItem="V3H-hd-bEV" secondAttribute="bottom" constant="20" id="EWP-4Y-jmz"/>
+                            <constraint firstItem="V3H-hd-bEV" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="20" id="FTU-2L-at0"/>
+                            <constraint firstItem="7Hn-UI-T6S" firstAttribute="top" secondItem="AlU-Xv-IoV" secondAttribute="top" constant="20" id="Gcf-nL-asY"/>
+                            <constraint firstItem="Oaz-XH-112" firstAttribute="top" secondItem="7Hn-UI-T6S" secondAttribute="bottom" constant="10" id="I6o-6C-NKD"/>
+                            <constraint firstItem="Oaz-XH-112" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="20" id="IXU-7Q-3pQ"/>
+                            <constraint firstItem="3AR-Nh-kzL" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="20" id="K0Y-O2-bIt"/>
+                            <constraint firstAttribute="trailing" secondItem="th8-S2-bTs" secondAttribute="trailing" constant="30" id="Qpb-10-zbR"/>
+                            <constraint firstItem="ruL-Bf-V3a" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="20" id="Xgx-n0-eDY"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="trailing" secondItem="V3H-hd-bEV" secondAttribute="trailing" constant="20" id="Yc4-4z-SrP"/>
+                            <constraint firstItem="V3H-hd-bEV" firstAttribute="top" secondItem="Oaz-XH-112" secondAttribute="bottom" constant="10" id="arQ-j4-3n1"/>
+                            <constraint firstItem="AlU-Xv-IoV" firstAttribute="trailing" secondItem="ruL-Bf-V3a" secondAttribute="trailing" constant="20" id="oo2-o1-aPI"/>
+                            <constraint firstItem="3AR-Nh-kzL" firstAttribute="top" secondItem="th8-S2-bTs" secondAttribute="bottom" constant="10" id="paa-YG-96t"/>
+                            <constraint firstItem="Oaz-XH-112" firstAttribute="height" secondItem="Rby-2d-Lo4" secondAttribute="height" multiplier="0.05" id="pep-1g-4l5"/>
+                            <constraint firstItem="th8-S2-bTs" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="30" id="qyg-cm-iMT"/>
+                            <constraint firstItem="ruL-Bf-V3a" firstAttribute="top" secondItem="3AR-Nh-kzL" secondAttribute="bottom" constant="10" id="sGs-eo-DYK"/>
+                            <constraint firstItem="7Hn-UI-T6S" firstAttribute="leading" secondItem="AlU-Xv-IoV" secondAttribute="leading" constant="30" id="ssT-u2-fP3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="리뷰" id="fSE-Dd-6Ig">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Y33-dN-vDq">
+                            <connections>
+                                <segue destination="cmR-Bm-gHN" kind="show" identifier="" id="ixN-wS-bAQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="filterSeg" destination="3AR-Nh-kzL" id="4a6-ik-mib"/>
+                        <outlet property="movieInfoLabel" destination="ILD-8h-y4x" id="YZd-yc-HvU"/>
+                        <outlet property="movieInfoView" destination="Oaz-XH-112" id="z0y-Ds-FNi"/>
+                        <outlet property="reviewTable" destination="ruL-Bf-V3a" id="Uws-BK-h1s"/>
+                        <outlet property="theaterInfoLabel" destination="9Qk-EZ-HP9" id="KoN-g3-eJy"/>
+                        <outlet property="theaterInfoView" destination="V3H-hd-bEV" id="jnb-p7-aco"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FeL-uX-rOn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2609" y="98"/>
+        </scene>
+        <!--ReviewWrting-->
+        <scene sceneID="6cT-kT-TqK">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ReviewWrting" id="cmR-Bm-gHN" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="qDn-A3-jnd"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="No0-1z-wkR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3448" y="98"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

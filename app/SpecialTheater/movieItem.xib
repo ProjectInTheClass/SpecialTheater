@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieItem" id="joW-2H-sUb" customClass="movieItem" customModule="SpecialTheater" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieItem" id="joW-2H-sUb" customClass="MovieItem" customModule="SpecialTheater" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="225" height="416"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="eRL-m3-hIG">
@@ -23,7 +23,7 @@
                             <constraint firstAttribute="width" secondItem="1iS-DC-BMQ" secondAttribute="height" multiplier="1:1.414" id="0fd-PD-twD"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15개 영화관 상영" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Qq-xaL">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제목" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Qq-xaL">
                         <rect key="frame" x="10" y="310" width="205" height="96"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <nil key="textColor"/>
@@ -44,8 +44,8 @@
             </collectionViewCellContentView>
             <size key="customSize" width="225" height="416"/>
             <connections>
-                <outlet property="descLabel" destination="bBN-Qq-xaL" id="gO2-im-zYZ"/>
-                <outlet property="posterImage" destination="1iS-DC-BMQ" id="P1O-WS-5lK"/>
+                <outlet property="movieLabel" destination="bBN-Qq-xaL" id="bRF-ZU-dWM"/>
+                <outlet property="posterImageView" destination="1iS-DC-BMQ" id="Gdp-1x-bMg"/>
             </connections>
             <point key="canvasLocation" x="248.55072463768118" y="62.946428571428569"/>
         </collectionViewCell>
