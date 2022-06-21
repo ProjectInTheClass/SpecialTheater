@@ -3,6 +3,7 @@ from selenium import webdriver
 import requests
 import json
 import datetime
+import html
 
 # 특별관 지점 정보가 바뀌었을 경우 사용
 def getSpecialBarchList():
@@ -61,7 +62,7 @@ def getMovies():
         continue
       
       for movie in result['megaMap']['movieFormList']:
-        movieName = movie['movieNm']
+        movieName = html.unescape(movie['movieNm'])
 
         if movieName.find('GV') != -1:
           continue

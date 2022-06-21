@@ -15,7 +15,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 # 파이어스토어 데이터베이스 인증서
-cred = credentials.Certificate('specialtheater-9463a-firebase-adminsdk-t4o5o-686f268e7e.json')
+cred = credentials.Certificate('specialtheater-9463a-firebase-adminsdk-t4o5o-2f0dd7f6b2.json')
 firebase_admin.initialize_app(cred, {
   'projectId': 'specialtheater-9463a'
 })

@@ -1,5 +1,6 @@
 import requests
 import json
+import html
 
 def getMovies():
   fields = {
@@ -28,7 +29,7 @@ def getMovies():
     if movie['SpecialScreenDivisionCode'][0] == '':
       continue
 
-    movieName = movie['MovieNameKR']
+    movieName = html.unescape(movie['MovieNameKR'])
 
     if movieName.find('GV') != -1:
       continue
